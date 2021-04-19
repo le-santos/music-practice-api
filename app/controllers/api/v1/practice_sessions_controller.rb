@@ -1,6 +1,8 @@
 module Api
   module V1
     class PracticeSessionsController < ApiController
+      before_action :set_practice_session, only: %i[show update destroy]
+
       def index
         practice_sessions = PracticeSession.all
 
@@ -19,14 +21,29 @@ module Api
       end
 
       def show
-        practice_session = PracticeSession.find_by(id: params[:id])
+        return render status: :not_found if @practice_session.nil?
 
-        return render status: :not_found if practice_session.nil?
+        render status: :ok, json: @practice_session
+      end
 
-        render status: :ok, json: practice_session
+      def update
+        if @practice_session.update(practice_params)
+          render status: :ok, json: @practice_session
+        else
+          render status: :unprocessable_entity,
+                 json: @practice_session.errors.full_messages
+        end
+      end
+
+      def destroy
+        @practice_session.destroy
       end
 
       private
+
+      def set_practice_session
+        @practice_session = PracticeSession.find_by(id: params[:id])
+      end
 
       def practice_params
         params.require(:practice_session).permit(:goals, :notes, :attachments)

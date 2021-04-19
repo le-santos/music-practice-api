@@ -44,7 +44,7 @@ describe 'Practice sessions route' do
 
   context 'POST #create' do
     it 'new practice_session' do
-      practice = { practice_session: 
+      practice = { practice_session:
                     { goals: 'Aprender música X',
                       notes: 'Usar o metrônomo hoje' } }
 
@@ -54,7 +54,7 @@ describe 'Practice sessions route' do
       expect(response.body).to include('Usar o metrônomo hoje')
       expect(PracticeSession.last.goals).to eq('Aprender música X')
     end
-    
+
     it 'cannot have blank goals' do
       practice = { practice_session: { goals: '' } }
 
@@ -62,6 +62,31 @@ describe 'Practice sessions route' do
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include('Metas não pode ficar em branco')
+    end
+  end
+
+  context 'PATCH #update' do
+    it 'updates practice_session' do
+      FactoryBot.create(:practice_session)
+      practice_update = { practice_session:
+                          { goals: 'Aprender música X' } }
+
+      patch '/api/v1/practice_sessions/1', params: practice_update
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('Aprender música X')
+    end
+  end
+
+  context 'DELETE #destroy' do
+    it 'deletes practice_session' do
+      practice_session = FactoryBot.create(:practice_session)
+      count_before = PracticeSession.all.count
+
+      delete "/api/v1/practice_sessions/#{practice_session.id}"
+
+      expect(response).to have_http_status(:no_content)
+      expect(PracticeSession.all.count).to be < count_before
     end
   end
 end
