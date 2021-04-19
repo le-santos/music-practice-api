@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_18_220129) do
+ActiveRecord::Schema.define(version: 2021_04_19_220708) do
+
+  create_table "musics", force: :cascade do |t|
+    t.string "title"
+    t.string "composer"
+    t.string "style"
+    t.string "arranger"
+    t.integer "category"
+    t.datetime "last_played"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "practice_sessions", force: :cascade do |t|
     t.string "goals"

@@ -1,0 +1,15 @@
+class CreateMusics < ActiveRecord::Migration[6.1]
+  def change
+    create_table :musics do |t|
+      t.string :title
+      t.string :composer
+      t.string :style
+      t.string :arranger
+      t.integer :category
+      t.datetime :last_played
+      t.integer :status, default: 0, null: false
+
+      t.timestamps
+    end
+  end
+end
