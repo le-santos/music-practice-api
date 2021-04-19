@@ -26,6 +26,22 @@ describe 'Musics routes' do
   end
 
   context 'GET #show' do
+    it 'return a single music' do
+      music = FactoryBot.create(:music)
+
+      get '/api/v1/musics/1'
+      response_json = JSON.parse(response.body)
+
+      expect(response).to have_http_status(:ok)
+      expect(response_json['id']).to eq(music.id)
+    end
+
+    it 'return not_found if resource does not exists' do
+      get '/api/v1/musics/1'
+
+      expect(response).to have_http_status(:not_found)
+      expect(response.body.blank?).to be_truthy
+    end
   end
 
   context 'POST #create' do
