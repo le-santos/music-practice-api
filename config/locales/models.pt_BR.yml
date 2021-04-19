@@ -1,0 +1,7 @@
+pt-BR:
+  activerecord:
+    attributes:
+      practice_session:
+        goals: Metas
+        notes: Anotações
+        attachments: Anexos
