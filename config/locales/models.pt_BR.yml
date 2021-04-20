@@ -5,3 +5,11 @@ pt-BR:
         goals: Metas
         notes: Anotações
         attachments: Anexos
+      music:
+        title: Título
+        composer: Compositor
+        style: Estilo
+        arranger: Arranjador
+        category: Categoria
+        last_played: Último dia que tocou
+        status: Status

@@ -51,7 +51,7 @@ describe 'Musics routes' do
                       composer: 'José das Notas',
                       style: 'Popular',
                       arranger: 'Maria das Claves',
-                      category: '',
+                      category: 'solo',
                       last_played: Date.today } }
 
       post '/api/v1/musics', params: music
@@ -59,6 +59,22 @@ describe 'Musics routes' do
       expect(response).to have_http_status(:created)
       expect(response.body).to include('José das Notas')
       expect(Music.last.title).to eq('Sonata 1')
+    end
+
+    it 'cannot have blank attributes' do
+      music = { music:
+                    { title: '',
+                      composer: '',
+                      style: '',
+                      category: '' } }
+
+      post '/api/v1/musics', params: music
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.body).to include('Título não pode ficar em branco')
+      expect(response.body).to include('Compositor não pode ficar em branco')
+      expect(response.body).to include('Estilo não pode ficar em branco')
+      expect(response.body).to include('Categoria não pode ficar em branco')
     end
   end
 
