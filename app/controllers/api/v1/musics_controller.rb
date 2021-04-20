@@ -1,7 +1,7 @@
 module Api
   module V1
     class MusicsController < ApiController
-      before_action :set_music, only: %i[show]
+      before_action :set_music, only: %i[show update destroy]
 
       def index
         musics = Music.all
@@ -23,6 +23,19 @@ module Api
           render status: :unprocessable_entity,
                  json: music.errors.full_messages
         end
+      end
+
+      def update
+        if @music.update(music_params)
+          render status: :ok, json: @music
+        else
+          render status: :unprocessable_entity,
+                 json: @music.errors.full_messages
+        end
+      end
+
+      def destroy
+        @music.destroy
       end
 
       private

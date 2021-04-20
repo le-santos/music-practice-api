@@ -79,8 +79,41 @@ describe 'Musics routes' do
   end
 
   context 'PATCH #update' do
+    it 'updates music attributes successfully' do
+      FactoryBot.create(:music, { composer: 'João Notas' })
+
+      music_update = { music:
+                        { composer: 'João Composer',
+                          last_played: 1.day.ago } }
+
+      patch '/api/v1/musics/1', params: music_update
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('João Composer')
+      expect(response.body).not_to include('João Notas')
+    end
+
+    it 'must have valid attributes' do
+      FactoryBot.create(:music)
+
+      music_update = { music: { composer: '' } }
+
+      patch '/api/v1/musics/1', params: music_update
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.body).to include('Compositor não pode ficar em branco')
+    end
   end
 
   context 'DELETE #destroy' do
+    it 'deletes Music' do
+      music = FactoryBot.create(:music)
+      count_before = Music.all.count
+
+      delete "/api/v1/musics/#{music.id}"
+
+      expect(response).to have_http_status(:no_content)
+      expect(Music.all.count).to be < count_before
+    end
   end
 end
