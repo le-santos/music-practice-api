@@ -45,8 +45,8 @@ module Api
       end
 
       def music_params
-        params.require(:music).permit(:title, :composer, 
-                                      :style, :arranger, 
+        params.require(:music).permit(:title, :composer,
+                                      :style, :arranger,
                                       :category, :last_played, :status)
       end
     end

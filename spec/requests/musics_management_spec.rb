@@ -22,7 +22,6 @@ describe 'Musics routes' do
       expect(response).to have_http_status(:ok)
       expect(response_json.size).to eq(0)
     end
-
   end
 
   context 'GET #show' do
@@ -52,7 +51,7 @@ describe 'Musics routes' do
                       style: 'Popular',
                       arranger: 'Maria das Claves',
                       category: 'solo',
-                      last_played: Date.today } }
+                      last_played: Time.zone.today } }
 
       post '/api/v1/musics', params: music
 
