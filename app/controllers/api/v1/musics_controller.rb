@@ -14,10 +14,27 @@ module Api
         render json: @music, status: :ok
       end
 
+      def create
+        music = Music.new(music_params)
+
+        if music.save
+          render status: :created, json: music
+        else
+          #render status: :unprocessable_entity,
+          #       json: music.errors.full_messages
+        end
+      end
+
       private
 
       def set_music
         @music = Music.find_by(id: params[:id])
+      end
+
+      def music_params
+        params.require(:music).permit(:title, :composer, 
+                                      :style, :arranger, 
+                                      :category, :last_played, :status)
       end
     end
   end

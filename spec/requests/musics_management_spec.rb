@@ -45,8 +45,23 @@ describe 'Musics routes' do
   end
 
   context 'POST #create' do
+    it 'new music' do
+      music = { music:
+                    { title: 'Sonata 1',
+                      composer: 'José das Notas',
+                      style: 'Popular',
+                      arranger: 'Maria das Claves',
+                      category: '',
+                      last_played: Date.today } }
+
+      post '/api/v1/musics', params: music
+
+      expect(response).to have_http_status(:created)
+      expect(response.body).to include('José das Notas')
+      expect(Music.last.title).to eq('Sonata 1')
+    end
   end
-  
+
   context 'PATCH #update' do
   end
 
