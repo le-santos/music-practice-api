@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_19_220708) do
+ActiveRecord::Schema.define(version: 2021_04_21_135608) do
 
   create_table "musics", force: :cascade do |t|
     t.string "title"
@@ -32,4 +32,15 @@ ActiveRecord::Schema.define(version: 2021_04_19_220708) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "rehearsed_musics", force: :cascade do |t|
+    t.integer "practice_session_id", null: false
+    t.integer "music_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["music_id"], name: "index_rehearsed_musics_on_music_id"
+    t.index ["practice_session_id"], name: "index_rehearsed_musics_on_practice_session_id"
+  end
+
+  add_foreign_key "rehearsed_musics", "musics"
+  add_foreign_key "rehearsed_musics", "practice_sessions"
 end
