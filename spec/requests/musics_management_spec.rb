@@ -29,10 +29,10 @@ describe 'Musics routes' do
       music = FactoryBot.create(:music)
 
       get '/api/v1/musics/1'
-      response_json = JSON.parse(response.body)
+      response_json = JSON.parse(response.body, symbolize_names: true)
 
       expect(response).to have_http_status(:ok)
-      expect(response_json['id']).to eq(music.id)
+      expect(response_json[:id]).to eq(music.id)
     end
 
     it 'return not_found if resource does not exists' do
@@ -113,6 +113,33 @@ describe 'Musics routes' do
 
       expect(response).to have_http_status(:no_content)
       expect(Music.all.count).to be < count_before
+    end
+  end
+
+  context 'GET #rehearsed_sessions' do
+    it 'renders practice_sessions associated with a music' do
+      music = FactoryBot.create(:music)
+      p_session1 = FactoryBot.create(:practice_session)
+      p_session2 = FactoryBot.create(:practice_session)
+      RehearsedMusic.create!(practice_session: p_session1, music: music)
+      RehearsedMusic.create!(practice_session: p_session2, music: music)
+
+      get "/api/v1/musics/#{music.id}/rehearsed_sessions"
+      json_reponse = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response).to have_http_status(:ok)
+      expect(json_reponse.count).to be(2)
+      expect(json_reponse[0][:id]).to eq(p_session1.id)
+      expect(json_reponse[1][:id]).to eq(p_session2.id)
+    end
+
+    it 'renders empty array if no practice_session' do
+      music = FactoryBot.create(:music)
+
+      get "/api/v1/musics/#{music.id}/rehearsed_sessions"
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to eq '[]'
     end
   end
 end

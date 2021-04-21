@@ -1,7 +1,7 @@
 module Api
   module V1
     class MusicsController < ApiController
-      before_action :set_music, only: %i[show update destroy]
+      before_action :set_music, only: %i[show update destroy rehearsed_sessions]
 
       def index
         musics = Music.all
@@ -36,6 +36,12 @@ module Api
 
       def destroy
         @music.destroy
+      end
+
+      def rehearsed_sessions
+        return render status: :ok, json: [] if @music.practice_sessions.empty?
+
+        render status: :ok, json: @music.practice_sessions
       end
 
       private

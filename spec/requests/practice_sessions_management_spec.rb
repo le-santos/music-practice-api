@@ -7,11 +7,11 @@ describe 'Practice sessions route' do
       practice_session2 = FactoryBot.create(:practice_session)
 
       get '/api/v1/practice_sessions'
-      response_json = JSON.parse(response.body)
+      response_json = JSON.parse(response.body, symbolize_names: true)
 
       expect(response).to have_http_status(:ok)
-      expect(response_json[0]['id']).to eq(practice_session1.id)
-      expect(response_json[1]['id']).to eq(practice_session2.id)
+      expect(response_json[0][:id]).to eq(practice_session1.id)
+      expect(response_json[1][:id]).to eq(practice_session2.id)
     end
 
     it 'return empty array if no content' do
@@ -28,10 +28,10 @@ describe 'Practice sessions route' do
       practice_session = FactoryBot.create(:practice_session)
 
       get '/api/v1/practice_sessions/1'
-      response_json = JSON.parse(response.body)
+      response_json = JSON.parse(response.body, symbolize_names: true)
 
       expect(response).to have_http_status(:ok)
-      expect(response_json['id']).to eq(practice_session.id)
+      expect(response_json[:id]).to eq(practice_session.id)
     end
 
     it 'return not_found if resource does not exists' do
@@ -87,6 +87,31 @@ describe 'Practice sessions route' do
 
       expect(response).to have_http_status(:no_content)
       expect(PracticeSession.all.count).to be < count_before
+    end
+  end
+
+  context 'GET #rehearsed_musics' do
+    it 'renders musics associated with a practice_session' do
+      p_session = FactoryBot.create(:practice_session)
+      music1 = FactoryBot.create(:music)
+      music2 = FactoryBot.create(:music)
+      RehearsedMusic.create!(practice_session: p_session, music: music1)
+      RehearsedMusic.create!(practice_session: p_session, music: music2)
+
+      get "/api/v1/practice_sessions/#{p_session.id}/rehearsed_musics"
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(music1.title)
+      expect(response.body).to include(music2.title)
+    end
+
+    it 'renders empty array if no rehearsed_music' do
+      p_session = FactoryBot.create(:practice_session)
+
+      get "/api/v1/practice_sessions/#{p_session.id}/rehearsed_musics"
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to eq '[]'
     end
   end
 end
