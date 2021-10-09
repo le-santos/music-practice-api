@@ -34,13 +34,14 @@ end
 group :development do
   gem 'faker'
   gem 'listen', '~> 3.3'
+  gem 'rails-erd'
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'spring'
-  gem 'rails-erd'
 end
 
 group :test do
+  gem 'shoulda-matchers', '~> 5.0'
   gem 'simplecov', require: false
 end
 
