@@ -5,6 +5,7 @@ RSpec.describe PracticeSession, type: :model do
     subject { create(:practice_session) }
 
     it { is_expected.to validate_presence_of(:goals) }
+    it { is_expected.to define_enum_for(:status) }
   end
 
   context 'associations' do
