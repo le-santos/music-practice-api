@@ -13,7 +13,8 @@ RSpec.describe Music, type: :model do
   end
 
   context 'associations' do
-    let(:music) { create(:music) }
+    let(:user) { create(:user)}
+    let(:music) { create(:music, user: user) }
     let(:practice_session1) { create(:practice_session) }
     let(:practice_session2) { create(:practice_session) }
     let(:rehearsed_musics) do
@@ -37,6 +38,10 @@ RSpec.describe Music, type: :model do
       expect(music.practice_sessions.count).to eq 2
       expect(music.practice_sessions.first.id).to eq practice_session1.id
       expect(music.practice_sessions.last.id).to eq practice_session2.id
+    end
+
+    it 'belongs to a user' do
+      expect(music.user).to eq user
     end
   end
 end

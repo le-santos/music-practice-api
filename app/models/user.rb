@@ -3,4 +3,8 @@ class User < ApplicationRecord
 
   validates :username, :email, :password_digest, presence: true
   validates :username, :email, uniqueness: true
+
+  has_many :musics, dependent: :destroy
+  has_many :practice_sessions, dependent: :destroy
+  has_many :rehearsed_musics, through: :practice_sessions
 end

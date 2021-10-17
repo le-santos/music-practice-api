@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_10_171506) do
+ActiveRecord::Schema.define(version: 2021_10_17_002644) do
 
   create_table "musics", force: :cascade do |t|
     t.string "title"
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(version: 2021_10_10_171506) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_musics_on_user_id"
   end
 
   create_table "practice_sessions", force: :cascade do |t|
@@ -31,6 +33,8 @@ ActiveRecord::Schema.define(version: 2021_10_10_171506) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "status", default: 0
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_practice_sessions_on_user_id"
   end
 
   create_table "rehearsed_musics", force: :cascade do |t|
@@ -52,6 +56,8 @@ ActiveRecord::Schema.define(version: 2021_10_10_171506) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "musics", "users"
+  add_foreign_key "practice_sessions", "users"
   add_foreign_key "rehearsed_musics", "musics"
   add_foreign_key "rehearsed_musics", "practice_sessions"
 end

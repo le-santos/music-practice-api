@@ -3,5 +3,6 @@ FactoryBot.define do
     goals { 'MyString' }
     notes { 'MyString' }
     attachments { 'MyString' }
+    user { association(:user) }
   end
 end
