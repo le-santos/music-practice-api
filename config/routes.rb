@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   namespace 'api' do
     namespace 'v1' do
       post 'register', to: 'users#create'
+      post 'authenticate', to: 'authentication#create'
 
       resources 'practice_sessions', only: %i[index show create update destroy] do
         get 'rehearsed_musics', to: 'practice_sessions#rehearsed_musics', on: :member
