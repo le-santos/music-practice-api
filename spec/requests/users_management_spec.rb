@@ -7,12 +7,34 @@ RSpec.describe 'Users routes' do
   context 'POST #create' do
     let(:post_request) { post '/api/v1/register', params: params }
     let(:params) do
-      { user: { username: 'Fulano', email: 'email@email', password: '123456' } }
+      { username: 'Fulano', email: 'email@email', password: '123456' }
     end
 
-    it 'new user' do
+    it 'register new user' do
       expect { post_request }.to change { User.count }.by(1)
+    end
+
+    it 'returns user id' do
+      post_request
+
       expect(response_json[:user_id]).to eq(User.last.id)
+    end
+
+    context 'when params are missing' do
+      let(:params) do
+        { username: 'Fulano', email: 'email@email', password: '' }
+      end
+
+      it 'return error messages' do
+        post_request
+
+        expect(response_json[:error]).
+          to eq('param is missing or the value is empty: password')
+      end
+
+      it 'does not register new user' do
+        expect { post_request }.not_to change { User.count }
+      end
     end
   end
 end
