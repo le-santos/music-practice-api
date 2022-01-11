@@ -14,6 +14,6 @@ RSpec.describe User, type: :model do
   describe 'Associations' do
     it { is_expected.to have_many(:musics) }
     it { is_expected.to have_many(:practice_sessions) }
-    it { is_expected.to have_many(:rehearsed_musics).through(:practice_session) }
+    it { is_expected.to have_many(:rehearsed_musics).through(:practice_sessions) }
   end
 end
