@@ -16,6 +16,7 @@ module Api
 
       def create
         music = Music.new(music_params)
+        music.user_id = logged_in_user.id
 
         if music.save
           render status: :created, json: music

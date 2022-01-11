@@ -1,14 +1,20 @@
 require 'rails_helper'
 
 describe 'Musics routes' do
+  let(:headers) { { 'Authorization' => "Bearer #{token}" } }
+  
+  let(:secret) { AuthenticationTokenService::HMAC_SECRET }
+  let(:algorithm) { AuthenticationTokenService::ALGORITHM_TYPE }
+  let(:user) { create(:user, username: 'user1', password: 'password') }
+  let(:payload) {{ user_id: user.id }}
+  let(:token) { JWT.encode(payload, secret, algorithm) }
+  let(:response_json) { JSON.parse(response.body, symbolize_names: true) }
+
   context 'GET #index' do
     it 'returns list of Musics' do
-      3.times do
-        FactoryBot.create(:music)
-      end
+      3.times { FactoryBot.create(:music) }
 
-      get '/api/v1/musics'
-      response_json = JSON.parse(response.body)
+      get '/api/v1/musics', headers: headers
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include(Music.last.title)
@@ -16,8 +22,7 @@ describe 'Musics routes' do
     end
 
     it 'returns empty array if no resource' do
-      get '/api/v1/musics'
-      response_json = JSON.parse(response.body)
+      get '/api/v1/musics', headers: headers
 
       expect(response).to have_http_status(:ok)
       expect(response_json.size).to eq(0)
@@ -28,15 +33,14 @@ describe 'Musics routes' do
     it 'return a single music' do
       music = FactoryBot.create(:music)
 
-      get '/api/v1/musics/1'
-      response_json = JSON.parse(response.body, symbolize_names: true)
+      get '/api/v1/musics/1', headers: headers
 
       expect(response).to have_http_status(:ok)
       expect(response_json[:id]).to eq(music.id)
     end
 
     it 'return not_found if resource does not exists' do
-      get '/api/v1/musics/1'
+      get '/api/v1/musics/1', headers: headers
 
       expect(response).to have_http_status(:not_found)
       expect(response.body.blank?).to be_truthy
@@ -53,7 +57,7 @@ describe 'Musics routes' do
                       category: 'solo',
                       last_played: Time.zone.today } }
 
-      post '/api/v1/musics', params: music
+      post '/api/v1/musics', params: music, headers: headers
 
       expect(response).to have_http_status(:created)
       expect(response.body).to include('José das Notas')
@@ -67,7 +71,7 @@ describe 'Musics routes' do
                       style: '',
                       category: '' } }
 
-      post '/api/v1/musics', params: music
+      post '/api/v1/musics', params: music, headers: headers
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include('Título não pode ficar em branco')
@@ -81,11 +85,11 @@ describe 'Musics routes' do
     it 'updates music attributes successfully' do
       FactoryBot.create(:music, { composer: 'João Notas' })
 
-      music_update = { music:
+      update_params = { music:
                         { composer: 'João Composer',
                           last_played: 1.day.ago } }
 
-      patch '/api/v1/musics/1', params: music_update
+      patch '/api/v1/musics/1', params: update_params, headers: headers
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('João Composer')
@@ -95,9 +99,9 @@ describe 'Musics routes' do
     it 'must have valid attributes' do
       FactoryBot.create(:music)
 
-      music_update = { music: { composer: '' } }
+      update_params = { music: { composer: '' } }
 
-      patch '/api/v1/musics/1', params: music_update
+      patch '/api/v1/musics/1', params: update_params, headers: headers
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include('Compositor não pode ficar em branco')
@@ -109,7 +113,7 @@ describe 'Musics routes' do
       music = FactoryBot.create(:music)
       count_before = Music.all.count
 
-      delete "/api/v1/musics/#{music.id}"
+      delete "/api/v1/musics/#{music.id}", headers: headers
 
       expect(response).to have_http_status(:no_content)
       expect(Music.all.count).to be < count_before
@@ -124,19 +128,19 @@ describe 'Musics routes' do
       RehearsedMusic.create!(practice_session: p_session1, music: music)
       RehearsedMusic.create!(practice_session: p_session2, music: music)
 
-      get "/api/v1/musics/#{music.id}/rehearsed_sessions"
-      json_reponse = JSON.parse(response.body, symbolize_names: true)
+      get "/api/v1/musics/#{music.id}/rehearsed_sessions", headers: headers
+      response_json = JSON.parse(response.body, symbolize_names: true)
 
       expect(response).to have_http_status(:ok)
-      expect(json_reponse.count).to be(2)
-      expect(json_reponse[0][:id]).to eq(p_session1.id)
-      expect(json_reponse[1][:id]).to eq(p_session2.id)
+      expect(response_json.count).to be(2)
+      expect(response_json[0][:id]).to eq(p_session1.id)
+      expect(response_json[1][:id]).to eq(p_session2.id)
     end
 
     it 'renders empty array if no practice_session' do
       music = FactoryBot.create(:music)
 
-      get "/api/v1/musics/#{music.id}/rehearsed_sessions"
+      get "/api/v1/musics/#{music.id}/rehearsed_sessions", headers: headers
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to eq '[]'

@@ -12,6 +12,7 @@ module Api
 
       def create
         practice_session = PracticeSession.new(practice_params)
+        practice_session.user_id = logged_in_user.id
 
         if practice_session.save
           render status: :created, json: practice_session
