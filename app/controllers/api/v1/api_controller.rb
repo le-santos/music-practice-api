@@ -9,8 +9,8 @@ module Api
         @secret = ENV['SECRET_KEY_BASE'] || Rails.application.secret_key_base
       end
 
-      def create_token(payload)
-        JWT.encode(payload, secret)
+      def create_token(user_id)
+        AuthenticationTokenService.call(user_id)
       end
 
       def auth_header

@@ -1,35 +1,52 @@
 module Api
   module V1
     class UsersController < ApiController
-      skip_before_action :authenticate, only: [:create]
-      rescue_from ActionController::ParameterMissing, with: :missing_params
+      skip_before_action :authenticate, only: %i[create login]
+      before_action :check_params, only: :create
 
       def create
-        user = User.new(user_params)
-        payload = { user_id: user.id }
+        user = User.new(permitted_params)
 
         if user.save
-          create_token(payload)
-          render status: :created, json: payload
+          render status: :created, json: { user_id: user.id }
         else
           render status: :unprocessable_entity,
                  json: user.errors.full_messages
         end
       end
 
-      private
+      def login
+        user = User.find_by(email: permitted_params[:email])
 
-      def user_params
-        params.permit(%i[username password email]).tap do |user|
-          user.require(:username)
-          user.require(:email)
-          user.require(:password)
+        if user&.authenticate(permitted_params[:password])
+          token = create_token(user.id)
+          render status: :created, json: {id: user.id, token: token }
+        else
+          render status: :unprocessable_entity,
+                 json: { error: 'Invalid User or Password' }
         end
       end
 
-      def missing_params(error)
+      private
+
+      def permitted_params
+        params.permit(:username, :password, :email)
+      end
+
+      def check_params
+        return unless blank_values? || missing_keys?
+
         render status: :unprocessable_entity,
-               json: { error: error.original_message }
+               json: { error: 'missing params' }
+      end
+
+      def blank_values?
+        permitted_params.values.any?(&:blank?)
+      end
+
+      def missing_keys?
+        user_params = %i[username password email]
+        user_params.map(&:to_s) != permitted_params.keys
       end
     end
   end
