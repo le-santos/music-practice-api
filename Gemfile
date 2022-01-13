@@ -31,6 +31,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'pry-byebug'
   gem 'rspec-rails', '~> 5.0.0'
+  gem 'timecop', '~> 0.8.1'
 end
 
 group :development do

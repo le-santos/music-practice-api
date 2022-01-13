@@ -19,7 +19,7 @@ module Api
         user = User.find_by(email: permitted_params[:email])
 
         if user&.authenticate(permitted_params[:password])
-          token = create_token(user.id)
+          token = create_token(user.email)
           render status: :created, json: {id: user.id, token: token }
         else
           render status: :unprocessable_entity,

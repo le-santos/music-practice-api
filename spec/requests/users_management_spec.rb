@@ -66,7 +66,7 @@ RSpec.describe 'Users routes' do
 
   context 'POST #login' do
     let(:user) { create(:user, username: 'user1', password: 'password') }
-    let(:user_token) { AuthenticationTokenService.call(user.id) }
+    let(:user_token) { AuthenticationTokenService.encode(user.email) }
     let(:params) { { email: user.email, password: user.password } }
     let(:login_request) { post '/api/v1/login', params: params }
 

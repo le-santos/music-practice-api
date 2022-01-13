@@ -5,7 +5,7 @@ describe 'Practice sessions route' do
   let(:secret) { AuthenticationTokenService::HMAC_SECRET }
   let(:algorithm) { AuthenticationTokenService::ALGORITHM_TYPE }
   let(:user) { create(:user, username: 'user1', password: 'password') }
-  let(:payload) {{ user_id: user.id }}
+  let(:payload) {{ email: user.email }}
   let(:token) { JWT.encode(payload, secret, algorithm) }
   let(:response_json) { JSON.parse(response.body, symbolize_names: true) }
 

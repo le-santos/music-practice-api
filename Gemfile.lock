@@ -210,6 +210,7 @@ GEM
       sprockets (>= 3.0.0)
     sqlite3 (1.4.2)
     thor (1.1.0)
+    timecop (0.8.1)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.0.0)
@@ -241,6 +242,7 @@ DEPENDENCIES
   simplecov
   spring
   sqlite3 (~> 1.4)
+  timecop (~> 0.8.1)
   tzinfo-data
 
 RUBY VERSION

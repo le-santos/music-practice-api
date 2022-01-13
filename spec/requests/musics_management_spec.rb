@@ -2,12 +2,11 @@ require 'rails_helper'
 
 describe 'Musics routes' do
   let(:headers) { { 'Authorization' => "Bearer #{token}" } }
-  
+
   let(:secret) { AuthenticationTokenService::HMAC_SECRET }
   let(:algorithm) { AuthenticationTokenService::ALGORITHM_TYPE }
   let(:user) { create(:user, username: 'user1', password: 'password') }
-  let(:payload) {{ user_id: user.id }}
-  let(:token) { JWT.encode(payload, secret, algorithm) }
+  let(:token) { AuthenticationTokenService.encode(user.email) }
   let(:response_json) { JSON.parse(response.body, symbolize_names: true) }
 
   context 'GET #index' do
