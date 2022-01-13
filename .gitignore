@@ -32,3 +32,6 @@
 
 # local configs
 .vscode
+
+# enviroment variables
+.env
