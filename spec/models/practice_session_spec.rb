@@ -26,7 +26,7 @@ RSpec.describe PracticeSession, type: :model do
 
     it 'has many rehearsed_music' do
       expect(practice_session.rehearsed_musics.count).to eq 2
-      expect(practice_session.rehearsed_musics.first.id).to eq music1.id
+      expect(practice_session.rehearsed_musics.last.id).to eq RehearsedMusic.last.id
     end
 
     it 'has many musics through rehearsed_musics' do

@@ -11,7 +11,7 @@ describe 'Musics routes' do
 
   context 'GET #index' do
     it 'returns list of Musics' do
-      3.times { FactoryBot.create(:music) }
+      3.times { create(:music) }
 
       get '/api/v1/musics', headers: headers
 
@@ -29,17 +29,18 @@ describe 'Musics routes' do
   end
 
   context 'GET #show' do
-    it 'return a single music' do
-      music = FactoryBot.create(:music)
+  
+  it 'return a single music' do
+      music = create(:music)
 
-      get '/api/v1/musics/1', headers: headers
+      get "/api/v1/musics/#{music.id}", headers: headers
 
       expect(response).to have_http_status(:ok)
       expect(response_json[:id]).to eq(music.id)
     end
 
     it 'return not_found if resource does not exists' do
-      get '/api/v1/musics/1', headers: headers
+      get "/api/v1/musics/0", headers: headers
 
       expect(response).to have_http_status(:not_found)
       expect(response.body.blank?).to be_truthy
@@ -81,14 +82,14 @@ describe 'Musics routes' do
   end
 
   context 'PATCH #update' do
-    it 'updates music attributes successfully' do
-      FactoryBot.create(:music, { composer: 'João Notas' })
+    let(:music) { create(:music, { composer: 'João Notas' }) }
 
+    it 'updates music attributes successfully' do
       update_params = { music:
                         { composer: 'João Composer',
                           last_played: 1.day.ago } }
 
-      patch '/api/v1/musics/1', params: update_params, headers: headers
+      patch "/api/v1/musics/#{music.id}", params: update_params, headers: headers
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('João Composer')
@@ -96,11 +97,10 @@ describe 'Musics routes' do
     end
 
     it 'must have valid attributes' do
-      FactoryBot.create(:music)
-
+      music = create(:music)
       update_params = { music: { composer: '' } }
 
-      patch '/api/v1/musics/1', params: update_params, headers: headers
+      patch "/api/v1/musics/#{music.id}", params: update_params, headers: headers
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include('Compositor não pode ficar em branco')
@@ -109,7 +109,7 @@ describe 'Musics routes' do
 
   context 'DELETE #destroy' do
     it 'deletes Music' do
-      music = FactoryBot.create(:music)
+      music = create(:music)
       count_before = Music.all.count
 
       delete "/api/v1/musics/#{music.id}", headers: headers
@@ -121,9 +121,9 @@ describe 'Musics routes' do
 
   context 'GET #rehearsed_sessions' do
     it 'renders practice_sessions associated with a music' do
-      music = FactoryBot.create(:music)
-      p_session1 = FactoryBot.create(:practice_session)
-      p_session2 = FactoryBot.create(:practice_session)
+      music = create(:music)
+      p_session1 = create(:practice_session)
+      p_session2 = create(:practice_session)
       RehearsedMusic.create!(practice_session: p_session1, music: music)
       RehearsedMusic.create!(practice_session: p_session2, music: music)
 
@@ -137,7 +137,7 @@ describe 'Musics routes' do
     end
 
     it 'renders empty array if no practice_session' do
-      music = FactoryBot.create(:music)
+      music = create(:music)
 
       get "/api/v1/musics/#{music.id}/rehearsed_sessions", headers: headers
 

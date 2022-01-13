@@ -11,8 +11,8 @@ describe 'Practice sessions route' do
 
   context 'GET #index' do
     it 'returns pratice_session list' do
-      practice_session1 = FactoryBot.create(:practice_session)
-      practice_session2 = FactoryBot.create(:practice_session)
+      practice_session1 = create(:practice_session)
+      practice_session2 = create(:practice_session)
 
       get '/api/v1/practice_sessions', headers: headers
 
@@ -31,9 +31,9 @@ describe 'Practice sessions route' do
 
   context 'GET #show' do
     it 'return a single practice_session' do
-      practice_session = FactoryBot.create(:practice_session)
+      practice_session = create(:practice_session)
 
-      get '/api/v1/practice_sessions/1', headers: headers
+      get "/api/v1/practice_sessions/#{practice_session.id}", headers: headers
 
       expect(response).to have_http_status(:ok)
       expect(response_json[:id]).to eq(practice_session.id)
@@ -76,11 +76,11 @@ describe 'Practice sessions route' do
 
   context 'PATCH #update' do
     it 'updates practice_session' do
-      FactoryBot.create(:practice_session)
+      practice_session = create(:practice_session)
       practice_update = { practice_session:
                           { goals: 'Aprender música X' } }
 
-      patch '/api/v1/practice_sessions/1',
+      patch "/api/v1/practice_sessions/#{practice_session.id}",
             params: practice_update,
             headers: headers
 
@@ -91,7 +91,7 @@ describe 'Practice sessions route' do
 
   context 'DELETE #destroy' do
     it 'deletes practice_session' do
-      practice_session = FactoryBot.create(:practice_session)
+      practice_session = create(:practice_session)
       count_before = PracticeSession.all.count
 
       delete "/api/v1/practice_sessions/#{practice_session.id}", headers: headers
@@ -103,9 +103,9 @@ describe 'Practice sessions route' do
 
   context 'GET #rehearsed_musics' do
     it 'renders musics associated with a practice_session' do
-      p_session = FactoryBot.create(:practice_session)
-      music1 = FactoryBot.create(:music)
-      music2 = FactoryBot.create(:music)
+      p_session = create(:practice_session)
+      music1 = create(:music)
+      music2 = create(:music)
       RehearsedMusic.create!(practice_session: p_session, music: music1)
       RehearsedMusic.create!(practice_session: p_session, music: music2)
 
@@ -117,7 +117,7 @@ describe 'Practice sessions route' do
     end
 
     it 'renders empty array if no rehearsed_music' do
-      p_session = FactoryBot.create(:practice_session)
+      p_session = create(:practice_session)
 
       get "/api/v1/practice_sessions/#{p_session.id}/rehearsed_musics", headers: headers
 
