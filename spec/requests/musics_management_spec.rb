@@ -29,8 +29,7 @@ describe 'Musics routes' do
   end
 
   context 'GET #show' do
-  
-  it 'return a single music' do
+    it 'return a single music' do
       music = create(:music)
 
       get "/api/v1/musics/#{music.id}", headers: headers
@@ -40,7 +39,7 @@ describe 'Musics routes' do
     end
 
     it 'return not_found if resource does not exists' do
-      get "/api/v1/musics/0", headers: headers
+      get '/api/v1/musics/0', headers: headers
 
       expect(response).to have_http_status(:not_found)
       expect(response.body.blank?).to be_truthy
@@ -89,7 +88,8 @@ describe 'Musics routes' do
                         { composer: 'João Composer',
                           last_played: 1.day.ago } }
 
-      patch "/api/v1/musics/#{music.id}", params: update_params, headers: headers
+      patch "/api/v1/musics/#{music.id}", params: update_params,
+                                          headers: headers
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('João Composer')
@@ -100,7 +100,8 @@ describe 'Musics routes' do
       music = create(:music)
       update_params = { music: { composer: '' } }
 
-      patch "/api/v1/musics/#{music.id}", params: update_params, headers: headers
+      patch "/api/v1/musics/#{music.id}", params: update_params,
+                                          headers: headers
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include('Compositor não pode ficar em branco')

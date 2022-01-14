@@ -13,7 +13,7 @@ RSpec.describe Music, type: :model do
   end
 
   context 'associations' do
-    let(:user) { create(:user)}
+    let(:user) { create(:user) }
     let(:music) { create(:music, user: user) }
     let(:practice_session1) { create(:practice_session) }
     let(:practice_session2) { create(:practice_session) }

@@ -5,14 +5,14 @@ ruby '3.0.0'
 gem 'rails', '~> 6.1.3', '>= 6.1.3.1'
 
 gem 'dotenv-rails'
-gem 'puma', '~> 5.0'
 gem 'pg', '~> 1.1'
+gem 'puma', '~> 5.0'
 
 # Use Active Model has_secure_password
 gem 'bcrypt', '~> 3.1.7'
+gem 'bootsnap', '>= 1.4.4', require: false
 gem 'jwt'
 gem 'rack-cors'
-gem 'bootsnap', '>= 1.4.4', require: false
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

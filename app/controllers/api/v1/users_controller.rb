@@ -20,7 +20,7 @@ module Api
 
         if user&.authenticate(permitted_params[:password])
           token = create_token(user.email)
-          render status: :created, json: {id: user.id, token: token }
+          render status: :created, json: { id: user.id, token: token }
         else
           render status: :unprocessable_entity,
                  json: { error: 'Invalid User or Password' }

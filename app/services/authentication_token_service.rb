@@ -1,8 +1,8 @@
 require 'jwt'
 
 class AuthenticationTokenService
-  HMAC_SECRET = 'secret' # TODO salvar numa env
-  ALGORITHM_TYPE = 'HS256'
+  HMAC_SECRET = 'secret'.freeze # TODO: salvar numa env
+  ALGORITHM_TYPE = 'HS256'.freeze
 
   def self.encode(user_email)
     exp = 1.hour.from_now.to_i

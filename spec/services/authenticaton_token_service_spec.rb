@@ -7,7 +7,7 @@ RSpec.describe AuthenticationTokenService do
     let(:secret) { described_class::HMAC_SECRET }
     let(:algorithm) { described_class::ALGORITHM_TYPE }
     let(:user) { create(:user, username: 'user1', password: 'password') }
-    let(:payload) {{ email: user.email, exp: 1.hour.from_now.to_i }}
+    let(:payload) { { email: user.email, exp: 1.hour.from_now.to_i } }
     let(:encoded_token) do
       JWT.encode(payload, secret, algorithm)
     end
@@ -23,7 +23,7 @@ RSpec.describe AuthenticationTokenService do
     let(:secret) { described_class::HMAC_SECRET }
     let(:algorithm) { described_class::ALGORITHM_TYPE }
     let(:user) { create(:user, email: 'user@email.com') }
-    let(:payload) {{ email: user.email, exp: 1.hour.from_now.to_i }}
+    let(:payload) { { email: user.email, exp: 1.hour.from_now.to_i } }
     let(:encoded_token) do
       JWT.encode(payload, secret, algorithm)
     end

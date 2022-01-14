@@ -31,7 +31,7 @@ module Api
         return unless decoded_token
 
         user_email = decoded_token[0]['email']
-        @user ||= User.find_by(email: user_email)
+        @logged_in_user ||= User.find_by(email: user_email)
       end
 
       def logged_in?
@@ -39,10 +39,10 @@ module Api
       end
 
       def authenticate
-        unless logged_in?
-          render json: { message: 'Please log in' },
-                 status: :unauthorized
-        end
+        return if logged_in?
+
+        render json: { message: 'Please log in' },
+               status: :unauthorized
       end
     end
   end

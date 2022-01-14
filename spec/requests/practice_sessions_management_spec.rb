@@ -5,7 +5,7 @@ describe 'Practice sessions route' do
   let(:secret) { AuthenticationTokenService::HMAC_SECRET }
   let(:algorithm) { AuthenticationTokenService::ALGORITHM_TYPE }
   let(:user) { create(:user, username: 'user1', password: 'password') }
-  let(:payload) {{ email: user.email }}
+  let(:payload) { { email: user.email } }
   let(:token) { JWT.encode(payload, secret, algorithm) }
   let(:response_json) { JSON.parse(response.body, symbolize_names: true) }
 
@@ -94,7 +94,8 @@ describe 'Practice sessions route' do
       practice_session = create(:practice_session)
       count_before = PracticeSession.all.count
 
-      delete "/api/v1/practice_sessions/#{practice_session.id}", headers: headers
+      delete "/api/v1/practice_sessions/#{practice_session.id}",
+             headers: headers
 
       expect(response).to have_http_status(:no_content)
       expect(PracticeSession.count).to be < count_before
@@ -109,7 +110,8 @@ describe 'Practice sessions route' do
       RehearsedMusic.create!(practice_session: p_session, music: music1)
       RehearsedMusic.create!(practice_session: p_session, music: music2)
 
-      get "/api/v1/practice_sessions/#{p_session.id}/rehearsed_musics", headers: headers
+      get "/api/v1/practice_sessions/#{p_session.id}/rehearsed_musics",
+          headers: headers
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include(music1.title)
@@ -119,7 +121,8 @@ describe 'Practice sessions route' do
     it 'renders empty array if no rehearsed_music' do
       p_session = create(:practice_session)
 
-      get "/api/v1/practice_sessions/#{p_session.id}/rehearsed_musics", headers: headers
+      get "/api/v1/practice_sessions/#{p_session.id}/rehearsed_musics",
+          headers: headers
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to eq '[]'
