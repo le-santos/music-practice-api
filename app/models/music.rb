@@ -1,5 +1,5 @@
 class Music < ApplicationRecord
-  validates :title, :composer, :style, :arranger,
+  validates :title, :composer, :style,
             :category, :status, presence: true
 
   has_many :rehearsed_musics, dependent: :destroy
