@@ -25,7 +25,6 @@ end
 group :development do
   gem 'faker'
   gem 'listen', '~> 3.3'
-  gem 'rails-erd'
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'spring'
