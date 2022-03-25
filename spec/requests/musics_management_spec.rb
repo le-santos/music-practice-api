@@ -44,6 +44,17 @@ describe 'Musics routes' do
       expect(response).to have_http_status(:not_found)
       expect(response.body.blank?).to be_truthy
     end
+
+    context 'with practice_session query options' do
+      it 'return a music with a list of related practice_sessions' do
+        music = create(:music)
+
+        get "/api/v1/musics/#{music.id}?with_practice_sessions=true", headers: headers
+
+        expect(response).to have_http_status(:ok)
+        expect(response_json[:id]).to eq(music.id)
+      end
+    end
   end
 
   context 'POST #create' do

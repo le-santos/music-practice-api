@@ -11,6 +11,7 @@ module Api
       def show
         return render status: :not_found if @music.nil?
 
+        # TODO: se receber query com :with_practice_sessions, enviar com elas
         render json: @music, status: :ok
       end
 
@@ -39,11 +40,11 @@ module Api
         @music.destroy
       end
 
-      def rehearsed_sessions
-        return render status: :ok, json: [] if @music.practice_sessions.empty?
+      # def rehearsed_sessions
+      #   return render status: :ok, json: [] if @music.practice_sessions.empty?
 
-        render status: :ok, json: @music.practice_sessions
-      end
+      #   render status: :ok, json: @music.practice_sessions
+      # end
 
       private
 
