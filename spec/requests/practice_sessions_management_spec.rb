@@ -48,29 +48,45 @@ describe 'Practice sessions route' do
   end
 
   context 'POST #create' do
-    it 'new practice_session' do
-      practice_params = { practice_session:
-                        { goals: 'Aprender música X',
-                          notes: 'Usar o metrônomo hoje' } }
-
+    let(:post_request) do
       post '/api/v1/practice_sessions',
            params: practice_params,
            headers: headers
-
-      expect(response).to have_http_status(:created)
-      expect(response.body).to include('Usar o metrônomo hoje')
-      expect(PracticeSession.last.goals).to eq('Aprender música X')
     end
 
-    it 'cannot have blank goals' do
-      practice_params = { practice_session: { goals: '' } }
+    let(:music1) { create(:music) }
+    let(:music2) { create(:music) }
+    let(:practice_params) do
+      {
+        practice_session:
+          {
+            goals: 'Aprender música X',
+            notes: 'Usar o metrônomo hoje',
+            musics: [music1.id, music2.id]
+          }
+      }
+    end
 
-      post '/api/v1/practice_sessions',
-           params: practice_params,
-           headers: headers
+    it 'creates new practice_session' do
+      expect { post_request }.to change(PracticeSession, :count).by(1)
+      expect(response).to have_http_status(:created)
+      expect(response.body).to include('Aprender música X')
+    end
 
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.body).to include('Metas não pode ficar em branco')
+    it 'creates practice session and associated rehearsed_musics' do
+      expect { post_request }.to change(RehearsedMusic, :count).by(2)
+      expect(PracticeSession.last.rehearsed_musics.pluck(:music_id)).to eq([music1.id, music2.id])
+    end
+
+    context 'when goals are empty' do
+      let(:practice_params) { { practice_session: { goals: '' } } }
+
+      it 'cannot have blank goals' do
+        post_request
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include('Metas não pode ficar em branco')
+      end
     end
   end
 

@@ -10,8 +10,7 @@ module Api
       end
 
       def create
-        practice_session = PracticeSession.new(practice_params)
-        practice_session.user_id = logged_in_user.id
+        practice_session = build_practice_session_and_associations
 
         if practice_session.save
           render status: :created, json: practice_session
@@ -46,8 +45,27 @@ module Api
         @practice_session = PracticeSession.find_by(id: params[:id])
       end
 
+      # TODO: this logic should be in a service outside this controller
+      def build_practice_session_and_associations
+        PracticeSession.new(practice_params).tap do |practice|
+          practice.user_id = logged_in_user.id
+
+          music_from_params.each do |music|
+            practice.rehearsed_musics.build(music_id: music.id, practice_session_id: practice.id)
+          end
+        end
+      end
+
+      def music_from_params
+        Music.where(id: valid_params.fetch(:musics, []))
+      end
+
+      def valid_params
+        params.require(:practice_session).permit(:goals, :notes, :attachments, { musics: [] })
+      end
+
       def practice_params
-        params.require(:practice_session).permit(:goals, :notes, :attachments)
+        valid_params.except(:musics)
       end
     end
   end
