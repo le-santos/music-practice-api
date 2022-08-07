@@ -38,22 +38,24 @@ describe 'Musics routes' do
       expect(response_json[:id]).to eq(music.id)
     end
 
+    it 'return a single music with associated practice sessions' do
+      music = create(:music)
+      p_session1 = build(:practice_session)
+      p_session2 = build(:practice_session)
+      build(:rehearsed_music, music: music, practice_session: p_session1)
+      build(:rehearsed_music, music: music, practice_session: p_session2)
+      practice_sessions = music.practice_sessions.as_json
+
+      get "/api/v1/musics/#{music.id}", headers: headers
+
+      expect(JSON.parse(response.body)['practice_sessions']).to eq(practice_sessions)
+    end
+
     it 'return not_found if resource does not exists' do
       get '/api/v1/musics/0', headers: headers
 
       expect(response).to have_http_status(:not_found)
       expect(response.body.blank?).to be_truthy
-    end
-
-    context 'with practice_session query options' do
-      it 'return a music with a list of related practice_sessions' do
-        music = create(:music)
-
-        get "/api/v1/musics/#{music.id}?with_practice_sessions=true", headers: headers
-
-        expect(response).to have_http_status(:ok)
-        expect(response_json[:id]).to eq(music.id)
-      end
     end
   end
 
@@ -128,33 +130,6 @@ describe 'Musics routes' do
 
       expect(response).to have_http_status(:no_content)
       expect(Music.all.count).to be < count_before
-    end
-  end
-
-  context 'GET #rehearsed_sessions' do
-    it 'renders practice_sessions associated with a music' do
-      music = create(:music)
-      p_session1 = create(:practice_session)
-      p_session2 = create(:practice_session)
-      RehearsedMusic.create!(practice_session: p_session1, music: music)
-      RehearsedMusic.create!(practice_session: p_session2, music: music)
-
-      get "/api/v1/musics/#{music.id}/rehearsed_sessions", headers: headers
-      response_json = JSON.parse(response.body, symbolize_names: true)
-
-      expect(response).to have_http_status(:ok)
-      expect(response_json.count).to be(2)
-      expect(response_json[0][:id]).to eq(p_session1.id)
-      expect(response_json[1][:id]).to eq(p_session2.id)
-    end
-
-    it 'renders empty array if no practice_session' do
-      music = create(:music)
-
-      get "/api/v1/musics/#{music.id}/rehearsed_sessions", headers: headers
-
-      expect(response).to have_http_status(:ok)
-      expect(response.body).to eq '[]'
     end
   end
 end
