@@ -24,7 +24,7 @@ services:
     build: .
     environment:
       PIDFILE: /tmp/pids/server.pid
-    command: /bin/sh -c "bundle exec rails s -b '0.0.0.0'"
+    # command: /bin/sh -c "bundle exec rails s -b '0.0.0.0'"
     ports:
       - '3000:3000'
     depends_on:

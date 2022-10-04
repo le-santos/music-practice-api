@@ -9,4 +9,4 @@ RUN bundle install
 
 EXPOSE 3000
 
-CMD ["/bin/sh -c bundle exec rails s -b 0.0.0.0"]
+# CMD ["/bin/sh -c bundle exec rails s -b 0.0.0.0"]

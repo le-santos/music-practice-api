@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 2021_10_17_002644) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_musics_on_user_id"
   end
 
@@ -36,13 +36,13 @@ ActiveRecord::Schema.define(version: 2021_10_17_002644) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "status", default: 0
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_practice_sessions_on_user_id"
   end
 
   create_table "rehearsed_musics", force: :cascade do |t|
-    t.integer "practice_session_id", null: false
-    t.integer "music_id", null: false
+    t.bigint "practice_session_id", null: false
+    t.bigint "music_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["music_id"], name: "index_rehearsed_musics_on_music_id"
