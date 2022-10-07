@@ -1,24 +1,30 @@
 class MusicReminder
   include Sidekiq::Worker
-  sidekiq_options :queue => :notification , :retry => 1
+  sidekiq_options queue: :notification, retry: 1
 
-  
+  REFERENCE_DATE = DateTime.now - 30.days
+
   def perform
-    reference_date = DateTime.now - 30.days
-    puts 'running Worker'
+    logger.info('Starting MusicReminder Job...')
+    forgotten_music = []
 
-    musics = Music.all
     musics.each do |music|
-      next unless music.last_played < reference_date
+      next unless music.last_played < REFERENCE_DATE
 
-      music.archived!
-      message = "You should remember and practice music #{music.title}"
-      puts message
-      # body = { message: message }
-      # NotificationClient.new.post(body)
+      forgotten_music << music.title
+      logger.info("You should remember and practice music #{music.title}")
     end
 
+    NotificationClient.new.post({ musics_to_remember: forgotten_music })
   rescue StandardError => e
-    puts "Error for music #{e}"
+    logger.error "Error for music #{e}"
+  end
+
+  def logger
+    @logger ||= Rails.logger
+  end
+
+  def musics
+    @musics ||= Music.all
   end
 end

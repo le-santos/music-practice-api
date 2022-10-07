@@ -1,21 +1,21 @@
 class StatusChecker
   include Sidekiq::Worker
-  sidekiq_options :queue => :default , :retry => 1
+  sidekiq_options queue: :default, retry: 1
 
-  
   def perform
     PracticeSession.all.each do |practice|
       case practice.status
       when 'pending'
-        puts 'Go plan your practice'
+        logger.info "Go plan your practice id: #{practice.id}"
       when 'planned'
-        puts 'Go practice'
+        logger.info "Go practice session #{practice.id}"
       else
-        puts 'Good Job'
+        logger.info "Good Job, session #{practice.id} is done"
       end
     end
+  end
 
-  rescue StandardError => e
-    puts "Error for practice_session id: #{practice_session_id}"
+  def logger
+    @logger ||= Rails.logger
   end
 end

@@ -10,7 +10,7 @@ class NotificationClient
   private
 
   def connection
-    connection ||= Faraday.new(NOTIFICATION_URL) do |f|
+    Faraday.new(NOTIFICATION_URL) do |f|
       f.request :json
       f.response :json
     end

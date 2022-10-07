@@ -63,4 +63,8 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+
+  config.logger = Logger.new(STDOUT)
+  config.logger.level = Logger::DEBUG
+  config.logger.datetime_format = "%Y-%m-%d %H:%M:%S "
 end
