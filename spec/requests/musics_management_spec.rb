@@ -40,10 +40,7 @@ describe 'Musics routes' do
 
     it 'return a single music with associated practice sessions' do
       music = create(:music)
-      p_session1 = build(:practice_session)
-      p_session2 = build(:practice_session)
-      build(:rehearsed_music, music:, practice_session: p_session1)
-      build(:rehearsed_music, music:, practice_session: p_session2)
+      2.times { build(:practice_session, music:) }
       practice_sessions = music.practice_sessions.as_json
 
       get("/api/v1/musics/#{music.id}", headers:)

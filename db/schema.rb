@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_17_002644) do
+ActiveRecord::Schema.define(version: 2022_10_29_182347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,8 @@ ActiveRecord::Schema.define(version: 2021_10_17_002644) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "status", default: 0
     t.bigint "user_id", null: false
+    t.bigint "music_id", null: false
+    t.index ["music_id"], name: "index_practice_sessions_on_music_id"
     t.index ["user_id"], name: "index_practice_sessions_on_user_id"
   end
 
@@ -60,6 +62,7 @@ ActiveRecord::Schema.define(version: 2021_10_17_002644) do
   end
 
   add_foreign_key "musics", "users"
+  add_foreign_key "practice_sessions", "musics"
   add_foreign_key "practice_sessions", "users"
   add_foreign_key "rehearsed_musics", "musics"
   add_foreign_key "rehearsed_musics", "practice_sessions"

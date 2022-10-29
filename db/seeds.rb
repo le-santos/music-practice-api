@@ -55,24 +55,19 @@ ActiveRecord::Base.transaction do
     status: :completed,
     user_id: sample_user.id
   )
-  
+
   session2 = PracticeSession.create!(
     goals: 'Praticar fraseado do final',
     notes: '',
     status: :planned,
     user_id: sample_user.id
   )
-  
+
   session3 = PracticeSession.create!(
     goals: 'Leitura da primeira página',
     notes: '',
     status: :pending,
     user_id: sample_user.id
   )
-  
-  # RehearsedMusic
-  RehearsedMusic.create!(practice_session_id: session1.id, music_id: Music.first.id)
-  RehearsedMusic.create!(practice_session_id: session2.id, music_id: Music.second.id)
-  RehearsedMusic.create!(practice_session_id: session3.id, music_id: Music.last.id)  
-end
 
+end
