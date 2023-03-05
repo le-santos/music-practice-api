@@ -9,6 +9,12 @@ module Api
         render status: :ok, json: practice_sessions
       end
 
+      def show
+        return render status: :not_found if @practice_session.nil?
+
+        render status: :ok, json: @practice_session
+      end
+
       def create
         practice_session = PracticeSession.new(practice_params)
         practice_session.user_id = logged_in_user.id
@@ -19,12 +25,6 @@ module Api
           render status: :unprocessable_entity,
                  json: practice_session.errors.full_messages
         end
-      end
-
-      def show
-        return render status: :not_found if @practice_session.nil?
-
-        render status: :ok, json: @practice_session
       end
 
       def update

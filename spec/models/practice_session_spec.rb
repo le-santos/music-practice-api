@@ -12,13 +12,13 @@ RSpec.describe PracticeSession, type: :model do
     let(:user) { create(:user) }
     let(:music1) { create(:music) }
     let(:music2) { create(:music) }
-    let(:practice_session) { create(:practice_session, user: user) }
+    let(:practice_session) { create(:practice_session, user:) }
     let(:rehearsed_musics) do
       create(:rehearsed_music,
-             practice_session: practice_session,
+             practice_session:,
              music: music1)
       create(:rehearsed_music,
-             practice_session: practice_session,
+             practice_session:,
              music: music2)
     end
 

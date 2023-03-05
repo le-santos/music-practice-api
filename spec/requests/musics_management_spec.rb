@@ -13,7 +13,7 @@ describe 'Musics routes' do
     it 'returns list of Musics' do
       3.times { create(:music) }
 
-      get '/api/v1/musics', headers: headers
+      get('/api/v1/musics', headers:)
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include(Music.last.title)
@@ -21,7 +21,7 @@ describe 'Musics routes' do
     end
 
     it 'returns empty array if no resource' do
-      get '/api/v1/musics', headers: headers
+      get('/api/v1/musics', headers:)
 
       expect(response).to have_http_status(:ok)
       expect(response_json.size).to eq(0)
@@ -32,7 +32,7 @@ describe 'Musics routes' do
     it 'return a single music' do
       music = create(:music)
 
-      get "/api/v1/musics/#{music.id}", headers: headers
+      get("/api/v1/musics/#{music.id}", headers:)
 
       expect(response).to have_http_status(:ok)
       expect(response_json[:id]).to eq(music.id)
@@ -42,17 +42,17 @@ describe 'Musics routes' do
       music = create(:music)
       p_session1 = build(:practice_session)
       p_session2 = build(:practice_session)
-      build(:rehearsed_music, music: music, practice_session: p_session1)
-      build(:rehearsed_music, music: music, practice_session: p_session2)
+      build(:rehearsed_music, music:, practice_session: p_session1)
+      build(:rehearsed_music, music:, practice_session: p_session2)
       practice_sessions = music.practice_sessions.as_json
 
-      get "/api/v1/musics/#{music.id}", headers: headers
+      get("/api/v1/musics/#{music.id}", headers:)
 
-      expect(JSON.parse(response.body)['practice_sessions']).to eq(practice_sessions)
+      expect(response.parsed_body['practice_sessions']).to eq(practice_sessions)
     end
 
     it 'return not_found if resource does not exists' do
-      get '/api/v1/musics/0', headers: headers
+      get('/api/v1/musics/0', headers:)
 
       expect(response).to have_http_status(:not_found)
       expect(response.body.blank?).to be_truthy
@@ -69,7 +69,7 @@ describe 'Musics routes' do
                       category: 'solo',
                       last_played: Time.zone.today } }
 
-      post '/api/v1/musics', params: music, headers: headers
+      post('/api/v1/musics', params: music, headers:)
 
       expect(response).to have_http_status(:created)
       expect(response.body).to include('José das Notas')
@@ -83,7 +83,7 @@ describe 'Musics routes' do
                       style: '',
                       category: '' } }
 
-      post '/api/v1/musics', params: music, headers: headers
+      post('/api/v1/musics', params: music, headers:)
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include('Título não pode ficar em branco')
@@ -101,8 +101,8 @@ describe 'Musics routes' do
                         { composer: 'João Composer',
                           last_played: 1.day.ago } }
 
-      patch "/api/v1/musics/#{music.id}", params: update_params,
-                                          headers: headers
+      patch("/api/v1/musics/#{music.id}", params: update_params,
+                                          headers:)
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('João Composer')
@@ -113,8 +113,8 @@ describe 'Musics routes' do
       music = create(:music)
       update_params = { music: { composer: '' } }
 
-      patch "/api/v1/musics/#{music.id}", params: update_params,
-                                          headers: headers
+      patch("/api/v1/musics/#{music.id}", params: update_params,
+                                          headers:)
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include('Compositor não pode ficar em branco')
@@ -126,7 +126,7 @@ describe 'Musics routes' do
       music = create(:music)
       count_before = Music.all.count
 
-      delete "/api/v1/musics/#{music.id}", headers: headers
+      delete("/api/v1/musics/#{music.id}", headers:)
 
       expect(response).to have_http_status(:no_content)
       expect(Music.all.count).to be < count_before

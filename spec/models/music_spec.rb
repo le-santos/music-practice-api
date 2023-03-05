@@ -13,16 +13,16 @@ RSpec.describe Music, type: :model do
 
   context 'associations' do
     let(:user) { create(:user) }
-    let(:music) { create(:music, user: user) }
+    let(:music) { create(:music, user:) }
     let(:practice_session1) { create(:practice_session) }
     let(:practice_session2) { create(:practice_session) }
     let(:rehearsed_musics) do
       create(:rehearsed_music,
              practice_session: practice_session1,
-             music: music)
+             music:)
       create(:rehearsed_music,
              practice_session: practice_session2,
-             music: music)
+             music:)
     end
 
     before { rehearsed_musics }

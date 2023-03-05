@@ -14,7 +14,7 @@ describe 'Practice sessions route' do
       practice_session1 = create(:practice_session)
       practice_session2 = create(:practice_session)
 
-      get '/api/v1/practice_sessions', headers: headers
+      get('/api/v1/practice_sessions', headers:)
 
       expect(response).to have_http_status(:ok)
       expect(response_json[0][:id]).to eq(practice_session1.id)
@@ -22,7 +22,7 @@ describe 'Practice sessions route' do
     end
 
     it 'return empty array if no content' do
-      get '/api/v1/practice_sessions', headers: headers
+      get('/api/v1/practice_sessions', headers:)
 
       expect(response).to have_http_status(:ok)
       expect(response_json.empty?).to be_truthy
@@ -33,14 +33,14 @@ describe 'Practice sessions route' do
     it 'return a single practice_session' do
       practice_session = create(:practice_session)
 
-      get "/api/v1/practice_sessions/#{practice_session.id}", headers: headers
+      get("/api/v1/practice_sessions/#{practice_session.id}", headers:)
 
       expect(response).to have_http_status(:ok)
       expect(response_json[:id]).to eq(practice_session.id)
     end
 
     it 'return not_found if resource does not exists' do
-      get '/api/v1/practice_sessions/1', headers: headers
+      get('/api/v1/practice_sessions/1', headers:)
 
       expect(response).to have_http_status(:not_found)
       expect(response.body.blank?).to be_truthy
@@ -53,9 +53,9 @@ describe 'Practice sessions route' do
                         { goals: 'Aprender música X',
                           notes: 'Usar o metrônomo hoje' } }
 
-      post '/api/v1/practice_sessions',
+      post('/api/v1/practice_sessions',
            params: practice_params,
-           headers: headers
+           headers:)
 
       expect(response).to have_http_status(:created)
       expect(response.body).to include('Usar o metrônomo hoje')
@@ -65,9 +65,9 @@ describe 'Practice sessions route' do
     it 'cannot have blank goals' do
       practice_params = { practice_session: { goals: '' } }
 
-      post '/api/v1/practice_sessions',
+      post('/api/v1/practice_sessions',
            params: practice_params,
-           headers: headers
+           headers:)
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include('Metas não pode ficar em branco')
@@ -80,9 +80,9 @@ describe 'Practice sessions route' do
       practice_update = { practice_session:
                           { goals: 'Aprender música X' } }
 
-      patch "/api/v1/practice_sessions/#{practice_session.id}",
+      patch("/api/v1/practice_sessions/#{practice_session.id}",
             params: practice_update,
-            headers: headers
+            headers:)
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('Aprender música X')
@@ -94,8 +94,8 @@ describe 'Practice sessions route' do
       practice_session = create(:practice_session)
       count_before = PracticeSession.all.count
 
-      delete "/api/v1/practice_sessions/#{practice_session.id}",
-             headers: headers
+      delete("/api/v1/practice_sessions/#{practice_session.id}",
+             headers:)
 
       expect(response).to have_http_status(:no_content)
       expect(PracticeSession.count).to be < count_before
@@ -110,8 +110,8 @@ describe 'Practice sessions route' do
       RehearsedMusic.create!(practice_session: p_session, music: music1)
       RehearsedMusic.create!(practice_session: p_session, music: music2)
 
-      get "/api/v1/practice_sessions/#{p_session.id}/rehearsed_musics",
-          headers: headers
+      get("/api/v1/practice_sessions/#{p_session.id}/rehearsed_musics",
+          headers:)
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include(music1.title)
@@ -121,8 +121,8 @@ describe 'Practice sessions route' do
     it 'renders empty array if no rehearsed_music' do
       p_session = create(:practice_session)
 
-      get "/api/v1/practice_sessions/#{p_session.id}/rehearsed_musics",
-          headers: headers
+      get("/api/v1/practice_sessions/#{p_session.id}/rehearsed_musics",
+          headers:)
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to eq '[]'
