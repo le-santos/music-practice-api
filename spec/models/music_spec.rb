@@ -32,7 +32,7 @@ RSpec.describe Music, type: :model do
   context '#last_played_at' do
     let(:music) { create(:music) }
     let(:older_practice_session) { create(:practice_session, created_at: 3.days.ago, music:) }
-    let(:newer_practice_session) { create(:practice_session, created_at: 1.days.ago, music:) }
+    let(:newer_practice_session) { create(:practice_session, created_at: 1.day.ago, music:) }
 
     it 'returns last_played date based on the recent PracticeSession' do
       older_practice_session
