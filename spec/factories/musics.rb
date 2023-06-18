@@ -5,7 +5,6 @@ FactoryBot.define do
     style { 'Modern' }
     arranger { 'Joana Rest' }
     category { 0 }
-    last_played { '2021-04-19 19:07:08' }
     status { 0 }
     user { association(:user) }
   end

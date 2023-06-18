@@ -13,7 +13,6 @@ ActiveRecord::Base.transaction do
       arranger: '',
       category: 0,
       status: 1,
-      last_played: Time.zone.today,
       user_id: sample_user.id
     },
     {
@@ -23,7 +22,6 @@ ActiveRecord::Base.transaction do
       arranger: '',
       category: 0,
       status: 1,
-      last_played: Time.zone.today - 1.month,
       user_id: sample_user.id
     },
     {
@@ -33,7 +31,6 @@ ActiveRecord::Base.transaction do
       arranger: '',
       category: 0,
       status: 1,
-      last_played: '',
       user_id: sample_user.id
     },
     {
@@ -42,7 +39,6 @@ ActiveRecord::Base.transaction do
       style: 'Moderno',
       arranger: 'Sergio Abreu',
       category: 1,
-      last_played: '',
       user_id: sample_user.id
     }
   ]

@@ -63,8 +63,7 @@ describe 'Musics routes' do
                       composer: 'José das Notas',
                       style: 'Popular',
                       arranger: 'Maria das Claves',
-                      category: 'solo',
-                      last_played: Time.zone.today } }
+                      category: 'solo' } }
 
       post('/api/v1/musics', params: music, headers:)
 
@@ -94,9 +93,7 @@ describe 'Musics routes' do
     let(:music) { create(:music, { composer: 'João Notas' }) }
 
     it 'updates music attributes successfully' do
-      update_params = { music:
-                        { composer: 'João Composer',
-                          last_played: 1.day.ago } }
+      update_params = { music: { composer: 'João Composer' } }
 
       patch("/api/v1/musics/#{music.id}", params: update_params,
                                           headers:)
