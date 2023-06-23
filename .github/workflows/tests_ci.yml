@@ -2,7 +2,10 @@
 # run rspec tests.
 
 name: RSpec tests
-on: [push, pull_request]
+on: 
+  push:
+  pull_request:
+    types: [opened, reopened]
 
 jobs:
   test:
