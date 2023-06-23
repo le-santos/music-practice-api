@@ -13,9 +13,9 @@ RSpec.describe Music, type: :model do
 
   context 'associations' do
     let(:user) { create(:user) }
-    let(:music) { create(:music, user:) }
+    let(:music) { create(:music, user: user) }
     let(:create_practice_sessions) do
-      2.times { create(:practice_session, music:) }
+      2.times { create(:practice_session, music: music) }
     end
 
     it 'has many practice_sessions' do
@@ -31,8 +31,8 @@ RSpec.describe Music, type: :model do
 
   context '#last_played_at' do
     let(:music) { create(:music) }
-    let(:older_practice_session) { create(:practice_session, created_at: 3.days.ago, music:) }
-    let(:newer_practice_session) { create(:practice_session, created_at: 1.day.ago, music:) }
+    let(:older_practice_session) { create(:practice_session, created_at: 3.days.ago, music: music) }
+    let(:newer_practice_session) { create(:practice_session, created_at: 1.day.ago, music: music) }
 
     it 'returns last_played date based on the recent PracticeSession' do
       older_practice_session

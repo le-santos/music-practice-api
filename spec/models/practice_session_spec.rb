@@ -11,7 +11,7 @@ RSpec.describe PracticeSession, type: :model do
   context 'associations' do
     let(:user) { create(:user) }
     let(:music) { create(:music) }
-    let(:practice_session) { create(:practice_session, user:, music:) }
+    let(:practice_session) { create(:practice_session, user: user, music: music) }
 
     it 'belongs to a music' do
       expect(practice_session.music).to eq music

@@ -13,7 +13,7 @@ describe 'Musics routes' do
     it 'returns list of Musics' do
       3.times { create(:music) }
 
-      get('/api/v1/musics', headers:)
+      get('/api/v1/musics', headers: headers)
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include(Music.last.title)
@@ -21,7 +21,7 @@ describe 'Musics routes' do
     end
 
     it 'returns empty array if no resource' do
-      get('/api/v1/musics', headers:)
+      get('/api/v1/musics', headers: headers)
 
       expect(response).to have_http_status(:ok)
       expect(response_json.size).to eq(0)
@@ -32,7 +32,7 @@ describe 'Musics routes' do
     it 'return a single music' do
       music = create(:music)
 
-      get("/api/v1/musics/#{music.id}", headers:)
+      get("/api/v1/musics/#{music.id}", headers: headers)
 
       expect(response).to have_http_status(:ok)
       expect(response_json[:id]).to eq(music.id)
@@ -40,16 +40,16 @@ describe 'Musics routes' do
 
     it 'return a single music with associated practice sessions' do
       music = create(:music)
-      2.times { build(:practice_session, music:) }
+      2.times { build(:practice_session, music: music) }
       practice_sessions = music.practice_sessions.as_json
 
-      get("/api/v1/musics/#{music.id}", headers:)
+      get("/api/v1/musics/#{music.id}", headers: headers)
 
       expect(response.parsed_body['practice_sessions']).to eq(practice_sessions)
     end
 
     it 'return not_found if resource does not exists' do
-      get('/api/v1/musics/0', headers:)
+      get('/api/v1/musics/0', headers: headers)
 
       expect(response).to have_http_status(:not_found)
       expect(response.body.blank?).to be_truthy
@@ -65,7 +65,7 @@ describe 'Musics routes' do
                       arranger: 'Maria das Claves',
                       category: 'solo' } }
 
-      post('/api/v1/musics', params: music, headers:)
+      post('/api/v1/musics', params: music, headers: headers)
 
       expect(response).to have_http_status(:created)
       expect(response.body).to include('José das Notas')
@@ -79,7 +79,7 @@ describe 'Musics routes' do
                       style: '',
                       category: '' } }
 
-      post('/api/v1/musics', params: music, headers:)
+      post('/api/v1/musics', params: music, headers: headers)
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include('Título não pode ficar em branco')
@@ -96,7 +96,7 @@ describe 'Musics routes' do
       update_params = { music: { composer: 'João Composer' } }
 
       patch("/api/v1/musics/#{music.id}", params: update_params,
-                                          headers:)
+                                          headers: headers)
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('João Composer')
@@ -108,7 +108,7 @@ describe 'Musics routes' do
       update_params = { music: { composer: '' } }
 
       patch("/api/v1/musics/#{music.id}", params: update_params,
-                                          headers:)
+                                          headers: headers)
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include('Compositor não pode ficar em branco')
@@ -120,7 +120,7 @@ describe 'Musics routes' do
       music = create(:music)
       count_before = Music.all.count
 
-      delete("/api/v1/musics/#{music.id}", headers:)
+      delete("/api/v1/musics/#{music.id}", headers: headers)
 
       expect(response).to have_http_status(:no_content)
       expect(Music.all.count).to be < count_before
