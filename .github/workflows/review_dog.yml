@@ -3,19 +3,22 @@ on: [pull_request]
 permissions:
   contents: read
   pull-requests: write
+
 jobs:
   rubocop:
-    name: runner / rubocop
+    name: reviewdog / rubocop
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v3
-      - uses: ruby/setup-ruby@v1
+        
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.0
+          bundler-cache: true
+
       - name: rubocop
         uses: reviewdog/action-rubocop@v2
         with:
           rubocop_version: gemfile
-          # rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile
           reporter: github-pr-review # Default is github-pr-check
