@@ -8,6 +8,8 @@ jobs:
   rubocop:
     name: reviewdog / rubocop
     runs-on: ubuntu-latest
+    env:
+      REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Check out code
         uses: actions/checkout@v3
