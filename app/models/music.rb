@@ -7,7 +7,7 @@ class Music < ApplicationRecord
 
   enum status: { archived: 0, learning: 1, reviewing: 2, performing: 9 }
 
-  def last_played_at    
+  def last_played_at
     practice_sessions.order(created_at: :desc).first&.created_at
   end
 end
