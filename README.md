@@ -1,24 +1,33 @@
-# README
+# Music Practice API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+[![Rubocop](https://github.com/le-santos/music-practice-api/workflows/Rubocop/badge.svg?branch=main&event=push)](https://github.com/le-santos/music-practice-api/actions?query=workflow%3ARubocop+event%3Apush+branch%3Amain) 
+[![reviewdog](https://github.com/le-santos/music-practice-api/workflows/reviewdog/badge.svg?branch=main&event=push)](https://github.com/le-santos/music-practice-api/actions?query=workflow%3Areviewdog+event%3Apush+branch%3Amain)
 
-Things you may want to cover:
 
-* Ruby version
+**⚠️ This is a work in progress 👷‍♂️**
 
-* System dependencies
+A simple API-only application built with Ruby on Rails. It's goal is to serve another web or mobile app.
 
-* Configuration
+This application is kind of a **music practice journal**: a user can register its musics, create and plan practice sessions.
 
-* Database creation
+## Domain schema
+<image width='300px' src='erd.svg'>
 
-* Database initialization
+## Routes
+TO-DO
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+## How to test it
+TO-DO
 
-* Deployment instructions
+## Dependencies
 
-* ...
+If running locally, it requires:
+
+* Ruby 3.2.0
+* PostgreSQL
+
+Or just:
+* Docker
+* docker-compose
+

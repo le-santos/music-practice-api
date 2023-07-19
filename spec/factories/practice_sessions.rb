@@ -4,5 +4,6 @@ FactoryBot.define do
     notes { 'MyString' }
     attachments { 'MyString' }
     user { association(:user) }
+    music { association(:music) }
   end
 end

@@ -1,8 +1,9 @@
 ActiveRecord::Base.transaction do
   # Create test user
+  puts '========= Creating User ==========='
   User.create!(username: 'Fulano', email: 'email@email', password: '123456')
   sample_user ||= User.last
-  
+
   # Music list for user
   musics_data = [
     {
@@ -12,7 +13,6 @@ ActiveRecord::Base.transaction do
       arranger: '',
       category: 0,
       status: 1,
-      last_played: Time.zone.today,
       user_id: sample_user.id
     },
     {
@@ -22,7 +22,6 @@ ActiveRecord::Base.transaction do
       arranger: '',
       category: 0,
       status: 1,
-      last_played: Time.zone.today - 1.month,
       user_id: sample_user.id
     },
     {
@@ -32,7 +31,6 @@ ActiveRecord::Base.transaction do
       arranger: '',
       category: 0,
       status: 1,
-      last_played: '',
       user_id: sample_user.id
     },
     {
@@ -41,38 +39,24 @@ ActiveRecord::Base.transaction do
       style: 'Moderno',
       arranger: 'Sergio Abreu',
       category: 1,
-      last_played: '',
       user_id: sample_user.id
     }
   ]
-  
-  musics_data.each { |music| Music.create!(music) }
-  
-  # PracticeSessions with varied status
-  session1 = PracticeSession.create!(
-    goals: 'Estudar parte A com metrônomo',
-    notes: 'Pratiquei com metrônomo de 60 a 90 bpm',
-    status: :completed,
-    user_id: sample_user.id
-  )
-  
-  session2 = PracticeSession.create!(
-    goals: 'Praticar fraseado do final',
-    notes: '',
-    status: :planned,
-    user_id: sample_user.id
-  )
-  
-  session3 = PracticeSession.create!(
-    goals: 'Leitura da primeira página',
-    notes: '',
-    status: :pending,
-    user_id: sample_user.id
-  )
-  
-  # RehearsedMusic
-  RehearsedMusic.create!(practice_session_id: session1.id, music_id: Music.first.id)
-  RehearsedMusic.create!(practice_session_id: session2.id, music_id: Music.second.id)
-  RehearsedMusic.create!(practice_session_id: session3.id, music_id: Music.last.id)  
-end
 
+  puts '========= Creating User ==========='
+  musics_data.each do |music|
+    new_music = Music.create!(music)
+
+    3.times do
+      PracticeSession.create!(
+        goals: Faker::Lorem.words(number: rand(4..6)).join(' '),
+        music: new_music,
+        notes: Faker::Lorem.words(number: rand(4..6)).join(' '),
+        status: %i[completed pending planned].sample,
+        user_id: sample_user.id
+      )
+    end
+  end
+
+  puts '========= Seed Complete! ==========='
+end

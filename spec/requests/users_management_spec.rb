@@ -4,7 +4,7 @@ RSpec.describe 'Users routes' do
   let(:response_json) { JSON.parse(response.body, symbolize_names: true) }
 
   context 'POST #create' do
-    let(:post_request) { post '/api/v1/register', params: }
+    let(:post_request) { post '/api/v1/register', params: params }
     let(:params) do
       { username: 'Fulano', email: 'email@email', password: '123456' }
     end
@@ -68,7 +68,7 @@ RSpec.describe 'Users routes' do
     let(:user) { create(:user, username: 'user1', password: 'password') }
     let(:user_token) { AuthenticationTokenService.encode(user.email) }
     let(:params) { { email: user.email, password: user.password } }
-    let(:login_request) { post '/api/v1/login', params: }
+    let(:login_request) { post '/api/v1/login', params: params }
 
     it 'login user successfully' do
       login_request

@@ -5,9 +5,7 @@ Rails.application.routes.draw do
       post 'register', to: 'users#create'
       post 'login', to: 'users#login'
 
-      resources 'practice_sessions', only: %i[index show create update destroy] do
-        get 'rehearsed_musics', to: 'practice_sessions/rehearsed_musics#index', on: :member
-      end
+      resources 'practice_sessions', only: %i[index show create update destroy]
 
       resources 'musics', only: %i[index show create update destroy]
     end

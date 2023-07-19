@@ -47,7 +47,7 @@ module Api
       end
 
       def practice_params
-        params.require(:practice_session).permit(:goals, :notes, :attachments)
+        params.require(:practice_session).permit(:goals, :notes, :attachments, :music_id)
       end
     end
   end
