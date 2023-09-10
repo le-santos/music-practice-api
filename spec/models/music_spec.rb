@@ -29,6 +29,34 @@ RSpec.describe Music, type: :model do
     end
   end
 
+  context '.forgotten' do
+    let(:user) { create(:user) }
+    let(:music1) { create(:music, user: user) }
+    let(:music2) { create(:music, user: user) }
+
+    it 'returns user\'s musics played only before 6 months ago' do
+      travel_to(6.months.ago) { create(:practice_session, status: :pending, music: music1) }
+      travel_to(6.months.ago) { create(:practice_session, status: :completed, music: music1) }
+      travel_to(5.months.ago) { create(:practice_session, status: :completed, music: music2) }
+
+      forgotten_list = Music.forgotten(user)
+
+      expect(forgotten_list).to include(music1)
+      expect(forgotten_list.size).to eq(1)
+    end
+
+    it 'returns user\'s musics played only before a custom period in months' do
+      travel_to(3.months.ago) { create(:practice_session, status: :completed, music: music1) }
+      travel_to(2.months.ago) { create(:practice_session, status: :completed, music: music2) }
+
+      months_period = 3
+      forgotten_list = Music.forgotten(user, months_period)
+
+      expect(forgotten_list).to include(music1)
+      expect(forgotten_list.size).to eq(1)
+    end
+  end
+
   context '#last_played_at' do
     let(:music) { create(:music) }
     let(:older_practice_session) { create(:practice_session, created_at: 3.days.ago, music: music) }
