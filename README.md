@@ -24,7 +24,7 @@ TO-DO
 
 If running locally, it requires:
 
-* Ruby 3.2.0
+* Ruby 3.3.0
 * PostgreSQL
 
 Or just:
