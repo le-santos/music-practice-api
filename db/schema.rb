@@ -32,22 +32,13 @@ ActiveRecord::Schema.define(version: 2023_06_18_204621) do
     t.string "goals"
     t.string "notes"
     t.string "attachments"
+    t.integer "status", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "status", default: 0
     t.bigint "user_id", null: false
     t.bigint "music_id", null: false
     t.index ["music_id"], name: "index_practice_sessions_on_music_id"
     t.index ["user_id"], name: "index_practice_sessions_on_user_id"
-  end
-
-  create_table "rehearsed_musics", force: :cascade do |t|
-    t.bigint "practice_session_id", null: false
-    t.bigint "music_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["music_id"], name: "index_rehearsed_musics_on_music_id"
-    t.index ["practice_session_id"], name: "index_rehearsed_musics_on_practice_session_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -63,6 +54,4 @@ ActiveRecord::Schema.define(version: 2023_06_18_204621) do
   add_foreign_key "musics", "users"
   add_foreign_key "practice_sessions", "musics"
   add_foreign_key "practice_sessions", "users"
-  add_foreign_key "rehearsed_musics", "musics"
-  add_foreign_key "rehearsed_musics", "practice_sessions"
 end
