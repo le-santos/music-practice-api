@@ -1,7 +1,7 @@
 ActiveRecord::Base.transaction do
   # Create test user
   puts '========= Creating User ==========='
-  User.create!(username: 'Fulano', email: 'email@email', password: '123456')
+  User.create!(username: 'Fulano', email: 'email@email', password: '123456qwerty')
   sample_user ||= User.last
 
   # Music list for user
