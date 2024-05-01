@@ -1,15 +1,12 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  # Remove it?
-  # has_secure_password
+  # Obs: some validations are already given by devise's validatable module
+  # https://github.com/heartcombo/devise/blob/main/lib/devise/models/validatable.rb
 
-  # change password digest?
-  validates :username, :email, :password_digest, presence: true
-  validates :username, :email, uniqueness: true
+  validates :username, :email, :password, presence: true, allow_blank: false
+  validates :username, :email, uniqueness: { case_sensitive: true }
 
   has_many :musics, dependent: :destroy
   has_many :practice_sessions, dependent: :destroy
