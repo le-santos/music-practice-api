@@ -118,12 +118,12 @@ describe 'Musics routes' do
   context 'DELETE #destroy' do
     it 'deletes Music' do
       music = create(:music)
-      count_before = Music.all.count
+      count_before = Music.count
 
       delete("/api/v1/musics/#{music.id}", headers: headers)
 
       expect(response).to have_http_status(:no_content)
-      expect(Music.all.count).to be < count_before
+      expect(Music.count).to be < count_before
     end
   end
 end
