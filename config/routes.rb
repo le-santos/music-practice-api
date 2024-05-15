@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
 
-  resources :musics, only: %i[show]
+  namespace 'web' do
+    resources :musics, only: %i[show]
+  end
 
   namespace 'api' do
     namespace 'v1' do
