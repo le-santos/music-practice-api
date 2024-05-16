@@ -1,0 +1,13 @@
+<h1>Musics</h1>
+
+<% @musics.each do |music| %>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title"><%= music.title %></h5>
+      <p class="card-text"><strong>Composer:</strong> <%= music.composer %></p>
+      <p class="card-text"><strong>Style:</strong> <%= music.style %></p>
+      <p class="card-text"><strong>Arranger:</strong> <%= music.arranger.presence || '-' %></p>
+      <p class="card-text"><strong>Status:</strong> <%= music.status %></p>
+    </div>
+  </div>
+<% end  %>

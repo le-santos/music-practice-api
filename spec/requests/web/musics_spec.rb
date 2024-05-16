@@ -1,13 +1,42 @@
 require 'rails_helper'
 
 RSpec.describe 'Musics', type: :request do
+  describe 'GET /index' do
+    it 'returns success status and a list of musics' do
+      user = create(:user)
+      5.times { create(:music, user: user, title: 'Custom Music') }
+      sign_in(user)
+
+      get '/web/musics'
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('Custom Music').exactly(5).times
+    end
+
+    it 'redirects page if user not signed in' do
+      get '/web/musics'
+
+      expect(response).to have_http_status(:redirect)
+    end
+  end
+
   describe 'GET /show' do
-    it 'returns status success' do
-      music = create(:music)
+    it 'returns success status and selected music info' do
+      music = create(:music, title: 'Custom Music')
+      sign_in(music.user)
 
       get "/web/musics/#{music.id}"
 
       expect(response).to have_http_status(:success)
+      expect(response.body).to include('Custom Music')
+    end
+
+    it 'redirects page if user not signed in' do
+      music = create(:music)
+
+      get "/web/musics/#{music.id}"
+
+      expect(response).to have_http_status(:redirect)
     end
   end
 end

@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   root to: 'home#index'
 
   namespace 'web' do
-    resources :musics, only: %i[show]
+    resources :musics, only: %i[index show]
+    resources :practice_sessions, only: %i[index show]
   end
 
   namespace 'api' do
