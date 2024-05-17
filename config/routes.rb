@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  root to: 'home#index'
+  root to: 'web/home#index'
 
   namespace 'web' do
     resources :musics, only: %i[index show]
