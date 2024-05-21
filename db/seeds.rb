@@ -1,19 +1,18 @@
 ActiveRecord::Base.transaction do
-  # Create test user
-  puts '========= Creating User ==========='
-  User.create!(username: 'Fulano', email: 'email@email', password: '123456qwerty')
-  sample_user ||= User.last
+  # Create test users
+  puts '========= Creating Users ==========='
+  user1 = User.create!(username: 'Fulano', email: 'email1@email', password: '123456qwerty')
+  user2 = User.create!(username: 'Beltrano', email: 'email2@email', password: '123456123456')
 
-  # Music list for user
-  musics_data = [
+  # Params for creating Music
+  musics_params = [
     {
       title: 'Suite 1 para violoncelo BWV 1007',
       composer: 'J. S. Bach',
       style: 'Barroco',
       arranger: '',
       category: 0,
-      status: 1,
-      user_id: sample_user.id
+      status: 1
     },
     {
       title: 'Capricho Àrabe',
@@ -21,8 +20,7 @@ ActiveRecord::Base.transaction do
       style: 'Romântico',
       arranger: '',
       category: 0,
-      status: 1,
-      user_id: sample_user.id
+      status: 1
     },
     {
       title: 'Fantasia 7',
@@ -30,33 +28,36 @@ ActiveRecord::Base.transaction do
       style: 'Renascimento',
       arranger: '',
       category: 0,
-      status: 1,
-      user_id: sample_user.id
+      status: 1
     },
     {
       title: 'La vida breve',
       composer: 'Manuel de Falla',
       style: 'Moderno',
       arranger: 'Sergio Abreu',
-      category: 1,
-      user_id: sample_user.id
+      category: 1
     }
   ]
 
-  puts '========= Creating User ==========='
-  musics_data.each do |music|
-    new_music = Music.create!(music)
+  CreateMusicAndSessions = lambda do |musics_params, user_id|
+    musics_params.each do |music|
+      new_music = Music.create!(user_id: user_id, **music)
 
-    3.times do
-      PracticeSession.create!(
-        goals: Faker::Lorem.words(number: rand(4..6)).join(' '),
-        music: new_music,
-        notes: Faker::Lorem.words(number: rand(4..6)).join(' '),
-        status: %i[completed pending planned].sample,
-        user_id: sample_user.id
-      )
+      5.times do
+        PracticeSession.create!(
+          goals: Faker::Lorem.words(number: rand(4..6)).join(' '),
+          music: new_music,
+          notes: Faker::Lorem.words(number: rand(4..6)).join(' '),
+          status: %i[completed pending planned].sample,
+          user_id: user_id
+        )
+      end
     end
   end
+
+  puts '========= Creating Music and PracticeSessions ==========='
+
+  User.pluck(:id).each { |user_id| CreateMusicAndSessions.call(musics_params, user_id) }
 
   puts '========= Seed Complete! ==========='
 end
