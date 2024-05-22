@@ -11,6 +11,7 @@ gem 'dotenv-rails'
 gem 'jwt'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
+gem 'pundit'
 gem 'rack-cors'
 gem 'sprockets-rails'
 

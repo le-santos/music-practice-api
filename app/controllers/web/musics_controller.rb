@@ -5,7 +5,7 @@ module Web
     end
 
     def show
-      @music = Music.find(params[:id])
+      @music = authorize Music.find(params[:id])
     end
   end
 end
