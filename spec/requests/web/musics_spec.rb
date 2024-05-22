@@ -38,5 +38,18 @@ RSpec.describe 'Musics', type: :request do
 
       expect(response).to have_http_status(:redirect)
     end
+
+    it 'redirects page if user does not own resource' do
+      user1 = create(:user)
+      music = create(:music, title: 'Custom Music', user: user1)
+      new_user = create(:user)
+      sign_in(new_user)
+
+      get "/web/musics/#{music.id}"
+
+      expect(response).to have_http_status(:redirect).and redirect_to(root_path)
+      follow_redirect!
+      expect(flash[:alert]).to be_present
+    end
   end
 end
