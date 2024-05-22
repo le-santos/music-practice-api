@@ -40,5 +40,18 @@ RSpec.describe 'PracticeSessions', type: :request do
 
       expect(response).to have_http_status(:redirect)
     end
+
+    it 'redirects page if user does not own resource' do
+      user1 = create(:user)
+      practice_session = create(:practice_session, user: user1)
+      new_user = create(:user)
+      sign_in(new_user)
+
+      get "/web/practice_sessions/#{practice_session.id}"
+
+      expect(response).to have_http_status(:redirect).and redirect_to(root_path)
+      follow_redirect!
+      expect(flash[:alert]).to be_present
+    end
   end
 end

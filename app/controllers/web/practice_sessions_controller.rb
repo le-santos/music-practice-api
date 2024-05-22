@@ -5,7 +5,7 @@ module Web
     end
 
     def show
-      @practice_session = PracticeSession.find(params[:id])
+      @practice_session = authorize PracticeSession.find(params[:id])
     end
   end
 end
