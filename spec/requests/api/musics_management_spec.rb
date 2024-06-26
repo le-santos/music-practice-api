@@ -82,10 +82,10 @@ describe 'Musics routes' do
       post('/api/v1/musics', params: music, headers: headers)
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.body).to include('Título não pode ficar em branco')
-      expect(response.body).to include('Compositor não pode ficar em branco')
-      expect(response.body).to include('Estilo não pode ficar em branco')
-      expect(response.body).to include('Categoria não pode ficar em branco')
+      expect(response.body).to include("Title can't be blank")
+      expect(response.body).to include("Composer can't be blank")
+      expect(response.body).to include("Style can't be blank")
+      expect(response.body).to include("Category can't be blank")
     end
   end
 
@@ -111,7 +111,7 @@ describe 'Musics routes' do
                                           headers: headers)
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.body).to include('Compositor não pode ficar em branco')
+      expect(response.body).to include("Composer can't be blank")
     end
   end
 

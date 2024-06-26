@@ -76,7 +76,7 @@ describe 'Practice sessions route' do
              headers: headers)
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.body).to include('Metas não pode ficar em branco')
+        expect(response.body).to include("Goals can't be blank")
       end
     end
   end
