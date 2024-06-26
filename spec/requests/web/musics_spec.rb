@@ -53,6 +53,17 @@ RSpec.describe 'Musics', type: :request do
     end
   end
 
+  describe 'GET /new' do
+    it 'renders page successfully' do
+      user = create(:user)
+      sign_in(user)
+
+      get '/web/musics/new'
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
   describe 'POST /create' do
     it 'creates new Music when receives required params' do
       user = create(:user)

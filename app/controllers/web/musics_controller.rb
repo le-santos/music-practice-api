@@ -8,7 +8,9 @@ module Web
       @music = authorize Music.find(params[:id])
     end
 
-    def new; end
+    def new
+      @music = current_user.musics.new
+    end
 
     def create
       @music = current_user.musics.new(music_params)
