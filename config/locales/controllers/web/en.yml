@@ -1,0 +1,6 @@
+en:
+  web:
+    musics:
+      create:
+        success: Music created sucessfully.
+        failure: Music creation failed.

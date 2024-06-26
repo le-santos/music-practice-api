@@ -4,20 +4,19 @@ module Web
       @musics = Music.where(user: current_user)
     end
 
-    def new; end
-
     def show
       @music = authorize Music.find(params[:id])
     end
+
+    def new; end
 
     def create
       @music = current_user.musics.new(music_params)
 
       if @music.save
-        flash[:notice] = 'Music Created' #I18n.t(:music_created)
-        redirect_to web_music_url(@music)
+        redirect_to web_music_url(@music), notice: t('.success')
       else
-        flash.now[:error] = 'Music not created, missing params' #I18n.t(:params_missing)
+        flash.now[:error] = "#{t('.failure')} #{@music.errors.full_messages.join(', ')}"
         render :new
       end
     end
@@ -25,10 +24,7 @@ module Web
     private
 
     def music_params
-      params
-        .require(:music)
-        .permit(:title, :composer, :style, :arranger,
-                :category, :last_played, :status)
+      params.permit(:title, :composer, :style, :arranger, :category, :status)
     end
   end
 end

@@ -1,0 +1,7 @@
+pt-BR:
+  web:
+    musics:
+      create:
+        success: Música criada com sucesso.
+        failure: Criação da Música falhou.
+
