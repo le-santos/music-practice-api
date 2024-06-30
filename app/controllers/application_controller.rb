@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   private
 
   def user_not_authorized
-    flash[:alert] = I18n.t('not_authorized', scope: 'pundit', default: :default)
+    flash[:alert] = I18n.t('user_not_authorized', scope: 'pundit', default: :default)
     redirect_back(fallback_location: root_path)
   end
 end

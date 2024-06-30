@@ -12,6 +12,10 @@ module Web
       @music = current_user.musics.new
     end
 
+    def edit
+      @music = authorize Music.find(params[:id])
+    end
+
     def create
       @music = current_user.musics.new(music_params)
 
@@ -20,6 +24,17 @@ module Web
       else
         flash.now[:error] = "#{t('.failure')} #{@music.errors.full_messages.join(', ')}"
         render :new
+      end
+    end
+
+    def update
+      @music = authorize Music.find(params[:id])
+
+      if @music.update(music_params)
+        redirect_to web_music_url(@music), notice: t('.success')
+      else
+        flash.now[:error] = "#{t('.failure')} #{@music.errors.full_messages.join(', ')}"
+        render :edit
       end
     end
 

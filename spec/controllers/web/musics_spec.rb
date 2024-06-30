@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Musics', type: :request do
-  describe 'GET /index' do
+  describe 'GET #index' do
     it 'returns success status and a list of musics' do
       user = create(:user)
       5.times { create(:music, user: user, title: 'Custom Music') }
@@ -16,11 +16,11 @@ RSpec.describe 'Musics', type: :request do
     it 'redirects page if user not signed in' do
       get '/web/musics'
 
-      expect(response).to have_http_status(:redirect)
+      expect(response).to have_http_status(:redirect).and redirect_to('/users/sign_in')
     end
   end
 
-  describe 'GET /show' do
+  describe 'GET #show' do
     it 'returns success status and selected music info' do
       music = create(:music, title: 'Custom Music')
       sign_in(music.user)
@@ -36,7 +36,7 @@ RSpec.describe 'Musics', type: :request do
 
       get "/web/musics/#{music.id}"
 
-      expect(response).to have_http_status(:redirect)
+      expect(response).to have_http_status(:redirect).and redirect_to('/users/sign_in')
     end
 
     it 'redirects page if user does not own resource' do
@@ -48,16 +48,15 @@ RSpec.describe 'Musics', type: :request do
       get "/web/musics/#{music.id}"
 
       expect(response).to have_http_status(:redirect).and redirect_to(root_path)
-      follow_redirect!
-      expect(flash[:alert]).to be_present
+      expect(flash[:alert]).to eq('You are not authorized to perform this action.')
     end
   end
 
-  describe 'GET /new' do
+  describe 'GET #new' do
     it 'redirects page if user not signed in' do
       get '/web/musics/new'
 
-      expect(response).to have_http_status(:redirect)
+      expect(response).to have_http_status(:redirect).and redirect_to('/users/sign_in')
     end
 
     it 'renders page successfully' do
@@ -71,7 +70,41 @@ RSpec.describe 'Musics', type: :request do
     end
   end
 
-  describe 'POST /create' do
+  describe 'GET #edit' do
+    it 'renders the edit path' do
+      user = create(:user)
+      sign_in(user)
+      music = create(:music, user: user)
+
+      get "/web/musics/#{music.id}/edit"
+
+      expect(response).to have_http_status(:success)
+      expect(path).to eq(edit_web_music_path(music.id))
+    end
+
+    it 'redirects page if user not signed in' do
+      user = create(:user)
+      music = create(:music, user: user)
+
+      get "/web/musics/#{music.id}/edit"
+
+      expect(response).to have_http_status(:redirect).and redirect_to('/users/sign_in')
+    end
+
+    it 'redirects page if user does not own resource' do
+      user = create(:user)
+      other_user = create(:user)
+      other_user_music = create(:music, user: other_user)
+      sign_in(user)
+
+      get "/web/musics/#{other_user_music.id}"
+
+      expect(response).to have_http_status(:redirect).and redirect_to(root_path)
+      expect(flash[:alert]).to eq('You are not authorized to perform this action.')
+    end
+  end
+
+  describe 'POST #create' do
     it 'redirects page if user not signed in' do
       music_params = {
         title: 'Sonata 1',
@@ -83,7 +116,7 @@ RSpec.describe 'Musics', type: :request do
 
       post '/web/musics', params: music_params
 
-      expect(response).to have_http_status(:redirect)
+      expect(response).to have_http_status(:redirect).and redirect_to('/users/sign_in')
     end
 
     it 'creates new Music for current user when receives required params' do
@@ -103,7 +136,7 @@ RSpec.describe 'Musics', type: :request do
       follow_redirect!
       expect(path).to eq(web_music_path(Music.last.id))
       expect(Music.last.user.id).to eq(user.id)
-      expect(flash[:notice]).to eq('Music created sucessfully.')
+      expect(flash[:notice]).to eq('Music created successfully.')
     end
 
     it 'does not create resource and render NEW action when missing params' do
@@ -114,5 +147,48 @@ RSpec.describe 'Musics', type: :request do
       expect { post '/web/musics', params: music_params }.not_to change(Music, :count)
       expect(flash[:error]).to include('Music creation failed.')
     end
+  end
+
+  describe 'PATCH #update' do
+    it 'redirects page if user does not own resource' do
+      user = create(:user)
+      other_user = create(:user)
+      other_user_music = create(:music, user: other_user)
+      sign_in(user)
+
+      patch "/web/musics/#{other_user_music.id}", params: { title: 'New Sonata' }
+
+      expect(response).to have_http_status(:redirect).and redirect_to(root_path)
+      expect(flash[:alert]).to eq('You are not authorized to perform this action.')
+    end
+
+    it 'updates the requested music' do
+      user = create(:user)
+      sign_in(user)
+      music = create(:music, user: user)
+
+      patch "/web/musics/#{music.id}", params: { title: 'New Sonata' }
+
+      expect(response).to have_http_status(:redirect)
+      follow_redirect!
+      expect(path).to eq(web_music_path(music.id))
+      expect(music.reload.title).to eq('New Sonata')
+      expect(flash[:notice]).to eq('Music updated successfully.')
+    end
+
+    it 'does not update Music when required params are missing' do
+      user = create(:user)
+      sign_in(user)
+      music = create(:music, user: user)
+
+      patch "/web/musics/#{music.id}", params: { title: '' }
+
+      expect(flash[:error]).to include('Music update failed')
+      expect(music.reload.title).not_to eq('')
+    end
+  end
+
+  describe 'DELETE #destroy' do
+
   end
 end

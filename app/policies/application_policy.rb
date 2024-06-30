@@ -25,7 +25,7 @@ class ApplicationPolicy
   end
 
   def update?
-    false
+    record.user_id == user.id
   end
 
   def edit?

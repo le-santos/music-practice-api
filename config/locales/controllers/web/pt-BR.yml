@@ -4,4 +4,6 @@ pt-BR:
       create:
         success: Música criada com sucesso.
         failure: Criação da Música falhou.
-
+      update:
+        success: Música atualizada com sucesso.
+        failure: Atualização da Música falhou.
