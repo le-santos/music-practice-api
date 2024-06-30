@@ -107,11 +107,13 @@ RSpec.describe 'Web/Musics', type: :request do
   describe 'POST #create' do
     it 'redirects page if user not signed in' do
       music_params = {
-        title: 'Sonata 1',
-        composer: 'José das Notas',
-        style: 'Popular',
-        arranger: 'Maria das Claves',
-        category: 'solo'
+        music: {
+          title: 'Sonata 1',
+          composer: 'José das Notas',
+          style: 'Popular',
+          arranger: 'Maria das Claves',
+          category: 'solo'
+        }
       }
 
       post '/web/musics', params: music_params
@@ -123,11 +125,13 @@ RSpec.describe 'Web/Musics', type: :request do
       user = create(:user)
       sign_in(user)
       music_params = {
-        title: 'Sonata 1',
-        composer: 'José das Notas',
-        style: 'Popular',
-        arranger: 'Maria das Claves',
-        category: 'solo'
+        music: {
+          title: 'Sonata 1',
+          composer: 'José das Notas',
+          style: 'Popular',
+          arranger: 'Maria das Claves',
+          category: 'solo'
+        }
       }
 
       post '/web/musics', params: music_params
@@ -139,10 +143,19 @@ RSpec.describe 'Web/Musics', type: :request do
       expect(flash[:notice]).to eq('Music created successfully.')
     end
 
-    it 'does not create resource and render NEW action when missing params' do
+    it 'renders NEW action when required params are missing' do
       user = create(:user)
       sign_in(user)
-      music_params = { title: '' }
+      music_params = {}
+
+      expect { post '/web/musics', params: music_params }.not_to change(Music, :count)
+      expect(flash[:error]).to include('Required params are missing')
+    end
+
+    it 'does not create resource and render NEW action when music creation fails' do
+      user = create(:user)
+      sign_in(user)
+      music_params = { music: { title: '' } }
 
       expect { post '/web/musics', params: music_params }.not_to change(Music, :count)
       expect(flash[:error]).to include('Music creation failed.')
@@ -167,7 +180,7 @@ RSpec.describe 'Web/Musics', type: :request do
       sign_in(user)
       music = create(:music, user: user)
 
-      patch "/web/musics/#{music.id}", params: { title: 'New Sonata' }
+      patch "/web/musics/#{music.id}", params: { music: { title: 'New Sonata' } }
 
       expect(response).to have_http_status(:redirect)
       follow_redirect!
@@ -181,7 +194,18 @@ RSpec.describe 'Web/Musics', type: :request do
       sign_in(user)
       music = create(:music, user: user)
 
-      patch "/web/musics/#{music.id}", params: { title: '' }
+      patch "/web/musics/#{music.id}", params: {}
+
+      expect(flash[:error]).to include('Required params are missing')
+      expect(music.reload.title).not_to eq('')
+    end
+
+    it 'does not update Music when update fails' do
+      user = create(:user)
+      sign_in(user)
+      music = create(:music, user: user)
+
+      patch "/web/musics/#{music.id}", params: { music: { title: '' } }
 
       expect(flash[:error]).to include('Music update failed')
       expect(music.reload.title).not_to eq('')
