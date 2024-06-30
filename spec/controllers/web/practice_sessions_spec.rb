@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'PracticeSessions', type: :request do
+RSpec.describe 'PracticeSessions', type: :controller do
   describe 'GET /index' do
     it 'returns success status and a list of practice sessions' do
       user = create(:user)
