@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root to: 'web/home#index'
 
   namespace 'web' do
-    resources :musics, only: %i[index show new create edit update]
+    resources :musics
     resources :practice_sessions, only: %i[index show]
   end
 

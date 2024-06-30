@@ -38,6 +38,13 @@ module Web
       end
     end
 
+    def destroy
+      @music = authorize Music.find(params[:id])
+
+      @music.destroy!
+      redirect_to web_musics_url, notice: t('.success')
+    end
+
     private
 
     def music_params

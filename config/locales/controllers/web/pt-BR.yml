@@ -7,3 +7,6 @@ pt-BR:
       update:
         success: Música atualizada com sucesso.
         failure: Atualização da Música falhou.
+      destroy:
+        success: Música excluída com sucesso.
+        failure: Exclusão da Música falhou.

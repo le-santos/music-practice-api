@@ -47,6 +47,19 @@ RSpec.describe MusicPolicy, type: :policy do
   end
 
   permissions :destroy? do
-    pending "add some examples to (or delete) #{__FILE__}"
+    it 'denies access if User is does not own Music' do
+      other_user = create(:user)
+      user = create(:user)
+      music = build(:music, user: user)
+
+      expect(policy).not_to permit(other_user, music)
+    end
+
+    it 'permits access if User owns Music' do
+      user = create(:user)
+      music = build(:music, user: user)
+
+      expect(policy).to permit(user, music)
+    end
   end
 end

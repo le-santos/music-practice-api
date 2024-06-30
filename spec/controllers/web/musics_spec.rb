@@ -189,6 +189,37 @@ RSpec.describe 'Musics', type: :request do
   end
 
   describe 'DELETE #destroy' do
+    it 'deletes the requested music' do
+      user = create(:user)
+      sign_in(user)
+      music = create(:music, user: user)
 
+      delete "/web/musics/#{music.id}"
+
+      expect(response).to have_http_status(:redirect).and redirect_to(web_musics_path)
+      expect(Music.exists?(music.id)).to be_falsey
+      expect(flash[:notice]).to eq('Music deleted successfully.')
+    end
+
+    it 'redirects page if user not signed in' do
+      user = create(:user)
+      music = create(:music, user: user)
+
+      delete "/web/musics/#{music.id}"
+
+      expect(response).to have_http_status(:redirect).and redirect_to('/users/sign_in')
+    end
+
+    it 'redirects page if user does not own resource' do
+      user = create(:user)
+      other_user = create(:user)
+      other_user_music = create(:music, user: other_user)
+      sign_in(user)
+
+      delete "/web/musics/#{other_user_music.id}"
+
+      expect(response).to have_http_status(:redirect).and redirect_to(root_path)
+      expect(flash[:alert]).to eq('You are not authorized to perform this action.')
+    end
   end
 end
