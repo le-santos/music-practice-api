@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Musics', type: :controller do
+RSpec.describe 'Musics', type: :request do
   describe 'GET /index' do
     it 'returns success status and a list of musics' do
       user = create(:user)
