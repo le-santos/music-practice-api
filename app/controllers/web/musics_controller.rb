@@ -26,7 +26,7 @@ module Web
     private
 
     def music_params
-      params.permit(:title, :composer, :style, :arranger, :category, :status)
+      params.permit(:title, :composer, :style, :arranger, :category)
     end
   end
 end
