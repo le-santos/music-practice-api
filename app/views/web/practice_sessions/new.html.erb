@@ -1,0 +1,9 @@
+<%= form_with model: [:web, @practice_session] do |form| %>
+  <%= form.label :music, t(:music) %>
+  <%= form.select :music_id, @musics, { include_blank: true } %>
+
+  <%= form.label :goals, t(:goals) %>
+  <%= form.text_area :goals %>
+
+  <%= form.submit %>
+<% end %>
