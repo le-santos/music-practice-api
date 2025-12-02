@@ -14,6 +14,7 @@ gem 'propshaft'
 gem 'puma', '~> 6.0'
 gem 'pundit'
 gem 'rack-cors'
+gem 'solid_queue'
 gem 'tailwindcss-rails', '~> 2.0'
 
 group :development, :test do

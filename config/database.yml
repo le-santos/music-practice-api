@@ -8,13 +8,28 @@ default: &default
   host: <%= ENV['POSTGRES_HOST'] %>
 
 development:
-  <<: *default
-  database: <%= ENV['POSTGRES_DB'] %>
+  primary:
+    <<: *default
+    database: <%= ENV['POSTGRES_DB'] %>
+  queue:
+    <<: *default
+    database: <%= ENV['SOLID_QUEUE_DB_DEV'] %>
+    migrations_paths: db/queue_migrate
 
 test:
-  <<: *default
-  database: <%= ENV['POSTGRES_TEST_DB'] %>
+  primary:
+    <<: *default
+    database: <%= ENV['POSTGRES_TEST_DB'] %>
+  queue:
+    <<: *default
+    database: <%= ENV['SOLID_QUEUE_DB_TEST'] %>
+    migrations_paths: db/queue_migrate
 
 production:
-  <<: *default
-  database: <%= ENV['POSTGRES_DB'] %>
+  primary:
+    <<: *default
+    database: <%= ENV['POSTGRES_DB_PROD'] %>
+  queue:
+    <<: *default
+    database: <%= ENV['POSTGRES_QUEUE_DB_PROD'] %>
+    migrations_paths: db/queue_migrate
