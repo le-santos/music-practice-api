@@ -1,18 +1,5 @@
-<%= form_with model: [:web, @music] do |form| %>
-  <%= form.label :title, t(:title) %>
-  <%= form.text_field :title %>
+<h1><%= t('.title', default: 'Add Music') %></h1>
 
-  <%= form.label :composer, t(:composer) %>
-  <%= form.text_field :composer %>
+<%= render 'form', music: @music %>
 
-  <%= form.label :style, t(:style) %>
-  <%= form.text_field :style %>
-
-  <%= form.label :arranger, t(:arranger) %>
-  <%= form.text_field :arranger %>
-
-  <%= form.label :category, t(:category) %>
-  <%= form.select :category, ['Solo', 'Duo'] %>
-
-  <%= form.submit %>
-<% end %>
+<%= link_to t('.back', default: 'Back'), web_musics_path %>

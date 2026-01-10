@@ -13,6 +13,32 @@ RSpec.describe 'Web/Musics', type: :request do
       expect(response.body).to include('Custom Music').exactly(5).times
     end
 
+    it 'includes action links for each music' do
+      user = create(:user)
+      music = create(:music, user: user, title: 'Test Music')
+      sign_in(user)
+
+      get '/web/musics'
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include(web_music_path(music))
+      expect(response.body).to include(edit_web_music_path(music))
+      expect(response.body).to include('View')
+      expect(response.body).to include('Edit')
+      expect(response.body).to include('Delete')
+    end
+
+    it 'includes link to add new music' do
+      user = create(:user)
+      sign_in(user)
+
+      get '/web/musics'
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include(new_web_music_path)
+      expect(response.body).to include('Add Music')
+    end
+
     it 'redirects page if user not signed in' do
       get '/web/musics'
 
@@ -29,6 +55,19 @@ RSpec.describe 'Web/Musics', type: :request do
 
       expect(response).to have_http_status(:success)
       expect(response.body).to include('Custom Music')
+    end
+
+    it 'includes edit and back action links' do
+      music = create(:music, title: 'Custom Music')
+      sign_in(music.user)
+
+      get "/web/musics/#{music.id}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include(edit_web_music_path(music))
+      expect(response.body).to include(web_musics_path)
+      expect(response.body).to include('Edit')
+      expect(response.body).to include('Back')
     end
 
     it 'redirects page if user not signed in' do
@@ -53,6 +92,17 @@ RSpec.describe 'Web/Musics', type: :request do
   end
 
   describe 'GET #new' do
+    it 'renders form successfully' do
+      user = create(:user)
+      sign_in(user)
+
+      get '/web/musics/new'
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('form')
+      expect(response.body).to include('Back')
+    end
+
     it 'redirects page if user not signed in' do
       get '/web/musics/new'
 
@@ -80,6 +130,19 @@ RSpec.describe 'Web/Musics', type: :request do
 
       expect(response).to have_http_status(:success)
       expect(path).to eq(edit_web_music_path(music.id))
+    end
+
+    it 'renders the form with music attributes' do
+      user = create(:user)
+      sign_in(user)
+      music = create(:music, user: user, title: 'Test Sonata', composer: 'Mozart')
+
+      get "/web/musics/#{music.id}/edit"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('Test Sonata')
+      expect(response.body).to include('Mozart')
+      expect(response.body).to include('form')
     end
 
     it 'redirects page if user not signed in' do

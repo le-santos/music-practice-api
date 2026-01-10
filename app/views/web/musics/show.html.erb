@@ -7,3 +7,7 @@
     <p class="card-text"><strong>Status:</strong> <%= @music.status %></p>
   </div>
 </div>
+<div class="actions">
+  <%= link_to t('.edit', default: 'Edit'), edit_web_music_path(@music), class: 'btn btn-warning' %>
+  <%= link_to t('.back', default: 'Back'), web_musics_path, class: 'btn btn-secondary' %>
+</div>

@@ -1,4 +1,6 @@
-<h1>Musics</h1>
+<h1><%= t('.title', default: 'Musics') %></h1>
+
+<%= link_to t('.add_new', default: '+ Add Music'), new_web_music_path, class: 'btn btn-primary' %>
 
 <% @musics.each do |music| %>
   <div class="card">
@@ -8,6 +10,11 @@
       <p class="card-text"><strong>Style:</strong> <%= music.style %></p>
       <p class="card-text"><strong>Arranger:</strong> <%= music.arranger.presence || '-' %></p>
       <p class="card-text"><strong>Status:</strong> <%= music.status %></p>
+      <div class="actions">
+        <%= link_to t('.show', default: 'View'), web_music_path(music), class: 'btn btn-info' %>
+        <%= link_to t('.edit', default: 'Edit'), edit_web_music_path(music), class: 'btn btn-warning' %>
+        <%= link_to t('.delete', default: 'Delete'), web_music_path(music), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+      </div>
     </div>
   </div>
-<% end  %>
+<% end %>
