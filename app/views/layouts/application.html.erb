@@ -3,27 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= "Rails App" %></title>
+  <title><%= "Music Practice Journal" %></title>
 
   <%= stylesheet_link_tag 'application', media: 'all' %>
 </head>
 <body>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
+  <%= render 'web/shared/navbar' %>
 
-  <header>
-    <% if user_signed_in? %>
-      <ul>
-        <li><%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete } %></li>
-      </ul>
+  <div class="flash-messages">
+    <% if notice.present? %>
+      <div class="alert alert-success" role="alert">
+        <%= notice %>
+      </div>
     <% end %>
-  </header>
+    <% if alert.present? %>
+      <div class="alert alert-danger" role="alert">
+        <%= alert %>
+      </div>
+    <% end %>
+    <% if flash[:error].present? %>
+      <div class="alert alert-danger" role="alert">
+        <%= flash[:error] %>
+      </div>
+    <% end %>
+  </div>
 
-  <main>
+  <main class="container">
     <%= yield %>
   </main>
 
-  <footer>
+  <footer class="footer">
+    <p>&copy; 2026 Music Practice Journal. All rights reserved.</p>
   </footer>
 </body>
 </html>

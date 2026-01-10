@@ -11,6 +11,11 @@ RSpec.describe 'Web/Musics', type: :request do
 
       expect(response).to have_http_status(:success)
       expect(response.body).to include('Custom Music').exactly(5).times
+      expect(response.body).to include('Music Practice Journal')
+      expect(response.body).to include('Musics')
+      expect(response.body).to include('Practice Sessions')
+      expect(response.body).to include(user.email)
+      expect(response.body).to include('Sign Out')
     end
 
     it 'includes action links for each music' do

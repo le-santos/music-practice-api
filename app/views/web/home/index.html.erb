@@ -1,9 +1,46 @@
-<section>
-  <h1>Welcome to Music Practice Journal App</h1>
+<% if user_signed_in? %>
+  <div class="dashboard">
+    <h1>Welcome, <%= current_user.username %>!</h1>
 
-  <ul>
-    <li><%= link_to "Sign in", new_user_session_path %></li>
-    <li><%= link_to "Register", new_user_registration_path %></li>
-  </ul>
+    <div class="dashboard-stats">
+      <div class="stat-card">
+        <h3><%= @musics_count %></h3>
+        <p><%= link_to "Musics", web_musics_path %></p>
+      </div>
 
-</section>
+      <div class="stat-card">
+        <h3><%= @practice_sessions_count %></h3>
+        <p><%= link_to "Practice Sessions", web_practice_sessions_path %></p>
+      </div>
+    </div>
+
+    <div class="recent-sessions">
+      <h2>Recent Practice Sessions</h2>
+      <% if @recent_sessions.any? %>
+        <ul>
+          <% @recent_sessions.each do |session| %>
+            <li>
+              <strong><%= link_to session.music.title, web_practice_session_path(session) %></strong>
+              - <%= session.goals %>
+              <span class="status-badge <%= session.status %>"><%= session.status %></span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="empty-state">No practice sessions yet. <%= link_to "Create one now!", new_web_practice_session_path %></p>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <section class="hero">
+    <h1>Welcome to Music Practice Journal</h1>
+    <p>Track your music practice sessions and monitor your progress</p>
+
+    <div class="cta-buttons">
+      <ul>
+        <li><%= link_to "Sign In", new_user_session_path, class: 'btn btn-primary' %></li>
+        <li><%= link_to "Register", new_user_registration_path, class: 'btn btn-secondary' %></li>
+      </ul>
+    </div>
+  </section>
+<% end %>

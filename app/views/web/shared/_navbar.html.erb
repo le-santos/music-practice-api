@@ -1,0 +1,27 @@
+<nav class="navbar">
+  <div class="navbar-brand">
+    <%= link_to 'Music Practice Journal', root_path, class: 'brand-link' %>
+  </div>
+
+  <div class="navbar-nav">
+    <% if user_signed_in? %>
+      <div class="nav-item">
+        <%= link_to 'Musics', web_musics_path, class: 'nav-link' %>
+      </div>
+      <div class="nav-item">
+        <%= link_to 'Practice Sessions', web_practice_sessions_path, class: 'nav-link' %>
+      </div>
+      <div class="nav-item user-menu">
+        <span class="user-email"><%= current_user.email %></span>
+        <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'nav-link' %>
+      </div>
+    <% else %>
+      <div class="nav-item">
+        <%= link_to 'Sign In', new_user_session_path, class: 'nav-link' %>
+      </div>
+      <div class="nav-item">
+        <%= link_to 'Register', new_user_registration_path, class: 'nav-link' %>
+      </div>
+    <% end %>
+  </div>
+</nav>
