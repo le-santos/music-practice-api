@@ -14,7 +14,7 @@
           <p class="text-gray-700"><span class="font-medium text-gray-600">Arranger:</span> <%= music.arranger.presence || '-' %></p>
           <p class="text-gray-700">
             <span class="font-medium text-gray-600">Status:</span>
-            <span class="text-xs font-medium px-2 py-1 rounded-full <%= case music.status when 'archived' then 'bg-gray-100 text-gray-800' when 'learning' then 'bg-blue-100 text-blue-800' when 'reviewing' then 'bg-purple-100 text-purple-800' when 'performing' then 'bg-green-100 text-green-800' else 'bg-gray-100 text-gray-800' end %>">
+            <span class="text-xs font-medium px-2 py-1 rounded-full <%= status_badge_classes(music.status) %>">
               <%= music.status %>
             </span>
           </p>
