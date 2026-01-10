@@ -5,7 +5,15 @@ RSpec.describe MusicPolicy, type: :policy do
   subject(:policy) { described_class }
 
   permissions '.scope' do
-    pending "add some examples to (or delete) #{__FILE__}"
+    it 'returns only musics owned by the user' do
+      user = create(:user)
+      other_user = create(:user)
+      user_musics = create_list(:music, 2, user: user)
+      other_user_musics = create_list(:music, 2, user: other_user)
+
+      scope = Pundit.policy_scope(user, Music)
+      expect(scope).to contain_exactly(*user_musics)
+    end
   end
 
   permissions :show? do
@@ -26,7 +34,12 @@ RSpec.describe MusicPolicy, type: :policy do
   end
 
   permissions :create? do
-    pending "add some examples to (or delete) #{__FILE__}"
+    it 'permits user to create music' do
+      user = create(:user)
+      music = build(:music, user: user)
+
+      expect(policy).to permit(user, music)
+    end
   end
 
   permissions :edit?, :update? do
@@ -48,6 +61,22 @@ RSpec.describe MusicPolicy, type: :policy do
 
   permissions :destroy? do
     it 'denies access if User is does not own Music' do
+      other_user = create(:user)
+      user = create(:user)
+      music = build(:music, user: user)
+
+      expect(policy).not_to permit(other_user, music)
+    end
+
+    it 'permits access if User owns Music' do
+      user = create(:user)
+      music = build(:music, user: user)
+
+      expect(policy).to permit(user, music)
+    end
+  end
+  permissions :destroy? do
+    it 'denies access if User does not own Music' do
       other_user = create(:user)
       user = create(:user)
       music = build(:music, user: user)

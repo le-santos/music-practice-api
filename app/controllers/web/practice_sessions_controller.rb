@@ -1,7 +1,7 @@
 module Web
   class PracticeSessionsController < ApplicationController
     def index
-      practice_sessions = PracticeSession.where(user: current_user)
+      practice_sessions = policy_scope(PracticeSession)
       @presenter = PracticeSessionsPresenter.new(practice_sessions)
     end
 
@@ -20,9 +20,10 @@ module Web
     end
 
     def create
-      # should authorize if current_user really owns the related to this music_id?
-      @practice_session = current_user.practice_sessions.create!(practice_session_params)
+      @practice_session = current_user.practice_sessions.new(practice_session_params)
+      authorize @practice_session
 
+      @practice_session.save!
       redirect_to web_practice_session_url(@practice_session),
                   notice: t('.success')
     end

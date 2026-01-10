@@ -1,7 +1,7 @@
 module Web
   class MusicsController < ApplicationController
     def index
-      @musics = Music.where(user: current_user)
+      @musics = policy_scope(Music)
     end
 
     def show
@@ -18,6 +18,7 @@ module Web
 
     def create
       @music = current_user.musics.new(music_params)
+      authorize @music
 
       if @music.save
         redirect_to web_music_url(@music), notice: t('.success')
