@@ -28,5 +28,9 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
 
+Metrics/AbcSize:
+  Max: 20
+  Severity: warning
+
 Style/AsciiComments:
   Enabled: false
