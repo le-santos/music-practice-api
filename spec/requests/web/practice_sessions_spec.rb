@@ -4,13 +4,15 @@ RSpec.describe 'PracticeSessions', type: :request do
   describe 'GET /index' do
     it 'returns success status and a list of practice sessions', :aggregate_failures do
       user = create(:user)
-      2.times { create(:practice_session, user: user) }
+      session1 = create(:practice_session, user: user)
+      session2 = create(:practice_session, user: user)
       sign_in(user)
 
       get '/web/practice_sessions'
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('Practice Session for Music').exactly(2).times
+      expect(response.body).to include(session1.music.title)
+      expect(response.body).to include(session2.music.title)
       expect(response.body).to include('Music Practice Journal')
       expect(response.body).to include('Musics')
       expect(response.body).to include('Practice Sessions')

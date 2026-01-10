@@ -104,7 +104,8 @@ RSpec.describe 'Web/Musics', type: :request do
       get '/web/musics/new'
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('form')
+      expect(response.body).to include('Title')
+      expect(response.body).to include('Composer')
       expect(response.body).to include('Back')
     end
 
@@ -147,7 +148,7 @@ RSpec.describe 'Web/Musics', type: :request do
       expect(response).to have_http_status(:success)
       expect(response.body).to include('Test Sonata')
       expect(response.body).to include('Mozart')
-      expect(response.body).to include('form')
+      expect(response.body).to include('Title')
     end
 
     it 'redirects page if user not signed in' do

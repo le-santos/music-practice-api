@@ -1,5 +1,4 @@
-<h1><%= t('.title', default: 'Edit Music') %></h1>
-
-<%= render 'form', music: @music %>
-
-<%= link_to t('.back', default: 'Back'), web_music_path(@music) %>
+<div class="max-w-2xl mx-auto">
+  <h1 class="text-3xl font-bold text-gray-900 mb-6"><%= t('.title', default: 'Edit Music') %></h1>
+  <%= render 'form', music: @music %>
+</div>

@@ -1,46 +1,70 @@
 <% if user_signed_in? %>
-  <div class="dashboard">
-    <h1>Welcome, <%= current_user.username %>!</h1>
+  <div class="space-y-8">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Welcome, <%= current_user.username %>!</h1>
+    </div>
 
-    <div class="dashboard-stats">
-      <div class="stat-card">
-        <h3><%= @musics_count %></h3>
-        <p><%= link_to "Musics", web_musics_path %></p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="bg-white rounded-lg shadow p-6 border border-gray-100">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-600 text-sm font-medium">Total Musics</p>
+            <p class="text-3xl font-bold text-gray-900 mt-2"><%= @musics_count %></p>
+          </div>
+          <div class="text-indigo-600 text-4xl">🎵</div>
+        </div>
+        <div class="mt-4">
+          <%= link_to "View Musics →", web_musics_path, class: 'text-indigo-600 hover:text-indigo-700 font-medium text-sm transition' %>
+        </div>
       </div>
 
-      <div class="stat-card">
-        <h3><%= @practice_sessions_count %></h3>
-        <p><%= link_to "Practice Sessions", web_practice_sessions_path %></p>
+      <div class="bg-white rounded-lg shadow p-6 border border-gray-100">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-600 text-sm font-medium">Practice Sessions</p>
+            <p class="text-3xl font-bold text-gray-900 mt-2"><%= @practice_sessions_count %></p>
+          </div>
+          <div class="text-indigo-600 text-4xl">📝</div>
+        </div>
+        <div class="mt-4">
+          <%= link_to "View Sessions →", web_practice_sessions_path, class: 'text-indigo-600 hover:text-indigo-700 font-medium text-sm transition' %>
+        </div>
       </div>
     </div>
 
-    <div class="recent-sessions">
-      <h2>Recent Practice Sessions</h2>
+    <div class="bg-white rounded-lg shadow border border-gray-100 p-6">
+      <h2 class="text-xl font-bold text-gray-900 mb-4">Recent Practice Sessions</h2>
       <% if @recent_sessions.any? %>
-        <ul>
+        <div class="space-y-3">
           <% @recent_sessions.each do |session| %>
-            <li>
-              <strong><%= link_to session.music.title, web_practice_session_path(session) %></strong>
-              - <%= session.goals %>
-              <span class="status-badge <%= session.status %>"><%= session.status %></span>
-            </li>
+            <div class="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg border border-gray-100 transition">
+              <div class="flex-1">
+                <p class="font-medium text-gray-900"><%= link_to session.music.title, web_practice_session_path(session), class: 'text-indigo-600 hover:text-indigo-700' %></p>
+                <p class="text-gray-600 text-sm"><%= session.goals %></p>
+              </div>
+              <span class="text-xs font-medium px-3 py-1 rounded-full <%= case session.status when 'pending' then 'bg-yellow-100 text-yellow-800' when 'planned' then 'bg-blue-100 text-blue-800' when 'completed' then 'bg-green-100 text-green-800' else 'bg-gray-100 text-gray-800' end %>">
+                <%= session.status %>
+              </span>
+            </div>
           <% end %>
-        </ul>
+        </div>
       <% else %>
-        <p class="empty-state">No practice sessions yet. <%= link_to "Create one now!", new_web_practice_session_path %></p>
+        <p class="text-gray-600 py-8 text-center">No practice sessions yet. <%= link_to "Create one now!", new_web_practice_session_path, class: 'text-indigo-600 hover:text-indigo-700 font-medium' %></p>
       <% end %>
     </div>
   </div>
 <% else %>
-  <section class="hero">
-    <h1>Welcome to Music Practice Journal</h1>
-    <p>Track your music practice sessions and monitor your progress</p>
+  <section class="py-12">
+    <div class="text-center space-y-8">
+      <div>
+        <h1 class="text-5xl font-bold text-gray-900 mb-4">🎼 Music Practice Journal</h1>
+        <p class="text-xl text-gray-600">Track your music practice sessions and monitor your progress</p>
+      </div>
 
-    <div class="cta-buttons">
-      <ul>
-        <li><%= link_to "Sign In", new_user_session_path, class: 'btn btn-primary' %></li>
-        <li><%= link_to "Register", new_user_registration_path, class: 'btn btn-secondary' %></li>
-      </ul>
+      <div class="flex gap-4 justify-center">
+        <%= link_to "Sign In", new_user_session_path, class: 'bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 font-medium transition' %>
+        <%= link_to "Register", new_user_registration_path, class: 'bg-gray-100 text-gray-900 px-6 py-3 rounded-lg hover:bg-gray-200 font-medium transition border border-gray-200' %>
+      </div>
     </div>
   </section>
 <% end %>

@@ -2,16 +2,16 @@ services:
   db:
     image: postgres
     volumes:
-      - api_db:/var/lib/postgresql/data
+      - app_db:/var/lib/postgresql/data
     env_file:
       - .env
     ports:
       - "5433:5433"
-  api:
+  app:
     build: .
     environment:
       PIDFILE: /tmp/pids/server.pid
-    command: /bin/sh -c "bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: /bin/sh -c "bundle exec rails s -b 0.0.0.0 -p 3000"
     ports:
       - "3000:3000"
     depends_on:
@@ -24,5 +24,5 @@ services:
       - .:/app
       - rubygems:/usr/local/bundle
 volumes:
-  api_db:
+  app_db:
   rubygems:
