@@ -9,7 +9,7 @@ RSpec.describe MusicPolicy, type: :policy do
       user = create(:user)
       other_user = create(:user)
       user_musics = create_list(:music, 2, user: user)
-      other_user_musics = create_list(:music, 2, user: other_user)
+      create_list(:music, 2, user: other_user)
 
       scope = Pundit.policy_scope(user, Music)
       expect(scope).to contain_exactly(*user_musics)

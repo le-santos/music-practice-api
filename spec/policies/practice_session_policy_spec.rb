@@ -9,7 +9,7 @@ RSpec.describe PracticeSessionPolicy, type: :policy do
       user = create(:user)
       other_user = create(:user)
       user_sessions = create_list(:practice_session, 2, user: user)
-      other_user_sessions = create_list(:practice_session, 2, user: other_user)
+      create_list(:practice_session, 2, user: other_user)
 
       scope = Pundit.policy_scope(user, PracticeSession)
       expect(scope).to contain_exactly(*user_sessions)
