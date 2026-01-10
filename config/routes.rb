@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   namespace 'web' do
     resources :musics
-    resources :practice_sessions, only: %i[index show new create]
+    resources :practice_sessions
   end
 
   namespace 'api' do

@@ -1,9 +1,5 @@
-<%= form_with model: [:web, @practice_session] do |form| %>
-  <%= form.label :music, t(:music) %>
-  <%= form.select :music_id, @musics, { include_blank: true } %>
+<h1><%= t('.title', default: 'New Practice Session') %></h1>
 
-  <%= form.label :goals, t(:goals) %>
-  <%= form.text_area :goals %>
+<%= render 'form' %>
 
-  <%= form.submit %>
-<% end %>
+<%= link_to t('.back', default: 'Back'), web_practice_sessions_path %>

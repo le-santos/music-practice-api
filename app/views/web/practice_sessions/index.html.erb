@@ -1,4 +1,6 @@
-<h1>Practice Sessions</h1>
+<h1><%= t('.title', default: 'Practice Sessions') %></h1>
+
+<%= link_to t('.add_new', default: '+ New Practice Session'), new_web_practice_session_path, class: 'btn btn-primary' %>
 
 <% @practice_sessions.each do |practice_session| %>
   <div class="card">
@@ -6,6 +8,11 @@
       <p class="card-text"><strong>Practice Session for Music:</strong> <%= practice_session.music.title %></p>
       <p class="card-text"><strong>Goal:</strong> <%= practice_session.goals %></p>
       <p class="card-text"><strong>Status:</strong> <%= practice_session.status %></p>
+      <div class="actions">
+        <%= link_to t('.show', default: 'View'), web_practice_session_path(practice_session), class: 'btn btn-info' %>
+        <%= link_to t('.edit', default: 'Edit'), edit_web_practice_session_path(practice_session), class: 'btn btn-warning' %>
+        <%= link_to t('.delete', default: 'Delete'), web_practice_session_path(practice_session), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+      </div>
     </div>
   </div>
-<% end  %>
+<% end %>

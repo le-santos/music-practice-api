@@ -5,3 +5,7 @@
     <p class="card-text"><strong>Status:</strong> <%= @practice_session.status %></p>
   </div>
 </div>
+<div class="actions">
+  <%= link_to t('.edit', default: 'Edit'), edit_web_practice_session_path(@practice_session), class: 'btn btn-warning' %>
+  <%= link_to t('.back', default: 'Back'), web_practice_sessions_path, class: 'btn btn-secondary' %>
+</div>

@@ -1,0 +1,37 @@
+<%= form_with model: [:web, @practice_session] do |form| %>
+  <% if @practice_session.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@practice_session.errors.count, "error") %> prohibited this practice session from being saved:</h2>
+      <ul>
+        <% @practice_session.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :music_id, t(:music) %>
+    <% if @practice_session.persisted? %>
+      <!-- On edit: show music name but disable selection -->
+      <p><strong><%= @practice_session.music.title %></strong></p>
+    <% else %>
+      <!-- On new: allow selection -->
+      <%= form.select :music_id, @musics, { include_blank: true } %>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= form.label :goals, t(:goals) %>
+    <%= form.text_area :goals %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status, t(:status) %>
+    <%= form.select :status, PracticeSession.statuses.keys.map { |s| [s.titleize, s] } %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

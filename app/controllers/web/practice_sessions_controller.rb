@@ -14,8 +14,8 @@ module Web
     end
 
     def edit
-      @music = Music.find(params[:music_id])
       @practice_session = authorize PracticeSession.find(params[:id])
+      @musics = current_user.musics.pluck(:title, :id)
     end
 
     def create
@@ -29,7 +29,7 @@ module Web
     def update
       @practice_session = authorize PracticeSession.find(params[:id])
 
-      if @practice_session.update(practice_session_params)
+      if @practice_session.update(practice_session_update_params)
         redirect_to web_practice_session_url(@practice_session), notice: t('.success')
       else
         flash.now[:error] = "#{t('.failure')} #{@practice_session.errors.full_messages.join(', ')}"
@@ -41,7 +41,7 @@ module Web
       @practice_session = authorize PracticeSession.find(params[:id])
 
       @practice_session.destroy!
-      redirect_to practice_sessions_url, notice: t('.success')
+      redirect_to web_practice_sessions_url, notice: t('.success')
     end
 
     private
@@ -54,6 +54,12 @@ module Web
       params
         .require(:practice_session)
         .permit(:music_id, :goals, :status)
+    end
+
+    def practice_session_update_params
+      params
+        .require(:practice_session)
+        .permit(:goals, :status)
     end
   end
 end
