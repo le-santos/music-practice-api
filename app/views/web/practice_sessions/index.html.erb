@@ -4,7 +4,7 @@
     <%= link_to t('.add_new', default: '+ New Practice Session'), new_web_practice_session_path, class: 'bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 font-medium transition' %>
   </div>
 
-  <% if @presenter.has_pending_sessions? %>
+  <% if @presenter.pending_sessions? %>
     <div class="bg-gradient-to-r from-yellow-50 to-amber-50 rounded-lg border-2 border-yellow-200 p-6">
       <div class="flex items-center gap-3 mb-6">
         <div class="bg-yellow-500 text-white p-2 rounded-lg">
@@ -51,7 +51,7 @@
     </div>
   <% end %>
 
-  <% if @presenter.has_planned_sessions? %>
+  <% if @presenter.planned_sessions? %>
     <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border-2 border-blue-200 p-6">
       <div class="flex items-center gap-3 mb-6">
         <div class="bg-blue-500 text-white p-2 rounded-lg">
@@ -98,7 +98,7 @@
     </div>
   <% end %>
 
-  <% if @presenter.has_completed_sessions? %>
+  <% if @presenter.completed_sessions? %>
     <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border-2 border-green-200 p-6">
       <div class="flex items-center gap-3 mb-6">
         <div class="bg-green-500 text-white p-2 rounded-lg">

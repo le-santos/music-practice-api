@@ -23,9 +23,13 @@ module Web
       @practice_session = current_user.practice_sessions.new(practice_session_params)
       authorize @practice_session
 
-      @practice_session.save!
-      redirect_to web_practice_session_url(@practice_session),
-                  notice: t('.success')
+      if @practice_session.save
+        redirect_to web_practice_session_url(@practice_session), notice: t('.success')
+      else
+        @musics = current_user.musics.pluck(:title, :id)
+        flash.now[:error] = format_errors(@practice_session)
+        render :new
+      end
     end
 
     def update
@@ -34,7 +38,8 @@ module Web
       if @practice_session.update(practice_session_update_params)
         redirect_to web_practice_session_url(@practice_session), notice: t('.success')
       else
-        flash.now[:error] = "#{t('.failure')} #{@practice_session.errors.full_messages.join(', ')}"
+        @musics = current_user.musics.pluck(:title, :id)
+        flash.now[:error] = format_errors(@practice_session)
         render :edit
       end
     end
@@ -47,6 +52,10 @@ module Web
     end
 
     private
+
+    def format_errors(record)
+      "#{t('.failure')} #{record.errors.full_messages.join(', ')}"
+    end
 
     def set_practice_session
       @practice_session = PracticeSession.find(params[:id])

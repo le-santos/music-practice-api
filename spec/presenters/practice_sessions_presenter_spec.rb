@@ -92,51 +92,51 @@ RSpec.describe PracticeSessionsPresenter do
     end
   end
 
-  describe '#has_pending_sessions?' do
+  describe '#pending_sessions?' do
     it 'returns true when there are pending sessions' do
       sessions = [pending_session, completed_session]
       presenter = PracticeSessionsPresenter.new(sessions)
 
-      expect(presenter.has_pending_sessions?).to be true
+      expect(presenter.pending_sessions?).to be true
     end
 
     it 'returns false when there are no pending sessions' do
       sessions = [planned_session, completed_session]
       presenter = PracticeSessionsPresenter.new(sessions)
 
-      expect(presenter.has_pending_sessions?).to be false
+      expect(presenter.pending_sessions?).to be false
     end
   end
 
-  describe '#has_planned_sessions?' do
+  describe '#planned_sessions?' do
     it 'returns true when there are planned sessions' do
       sessions = [planned_session, completed_session]
       presenter = PracticeSessionsPresenter.new(sessions)
 
-      expect(presenter.has_planned_sessions?).to be true
+      expect(presenter.planned_sessions?).to be true
     end
 
     it 'returns false when there are no planned sessions' do
       sessions = [pending_session, completed_session]
       presenter = PracticeSessionsPresenter.new(sessions)
 
-      expect(presenter.has_planned_sessions?).to be false
+      expect(presenter.planned_sessions?).to be false
     end
   end
 
-  describe '#has_completed_sessions?' do
+  describe '#completed_sessions?' do
     it 'returns true when there are completed sessions' do
       sessions = [pending_session, completed_session]
       presenter = PracticeSessionsPresenter.new(sessions)
 
-      expect(presenter.has_completed_sessions?).to be true
+      expect(presenter.completed_sessions?).to be true
     end
 
     it 'returns false when there are no completed sessions' do
       sessions = [pending_session, planned_session]
       presenter = PracticeSessionsPresenter.new(sessions)
 
-      expect(presenter.has_completed_sessions?).to be false
+      expect(presenter.completed_sessions?).to be false
     end
   end
 end

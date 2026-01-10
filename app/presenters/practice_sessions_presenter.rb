@@ -15,15 +15,15 @@ class PracticeSessionsPresenter
     @completed_sessions ||= @practice_sessions.select { |ps| ps.status == 'completed' }
   end
 
-  def has_pending_sessions?
+  def pending_sessions?
     pending_sessions.any?
   end
 
-  def has_planned_sessions?
+  def planned_sessions?
     planned_sessions.any?
   end
 
-  def has_completed_sessions?
+  def completed_sessions?
     completed_sessions.any?
   end
 end

@@ -23,7 +23,7 @@ module Web
       if @music.save
         redirect_to web_music_url(@music), notice: t('.success')
       else
-        flash.now[:error] = "#{t('.failure')} #{@music.errors.full_messages.join(', ')}"
+        flash.now[:error] = format_errors(@music)
         render :new
       end
     end
@@ -34,7 +34,7 @@ module Web
       if @music.update(music_params)
         redirect_to web_music_url(@music), notice: t('.success')
       else
-        flash.now[:error] = "#{t('.failure')} #{@music.errors.full_messages.join(', ')}"
+        flash.now[:error] = format_errors(@music)
         render :edit
       end
     end
@@ -47,6 +47,10 @@ module Web
     end
 
     private
+
+    def format_errors(record)
+      "#{t('.failure')} #{record.errors.full_messages.join(', ')}"
+    end
 
     def music_params
       params

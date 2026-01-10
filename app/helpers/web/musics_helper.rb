@@ -2,8 +2,6 @@ module Web
   module MusicsHelper
     def status_badge_classes(status)
       case status
-      when 'archived'
-        'bg-gray-100 text-gray-800'
       when 'learning'
         'bg-blue-100 text-blue-800'
       when 'reviewing'
