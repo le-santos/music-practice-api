@@ -1,7 +1,8 @@
 module Web
   class PracticeSessionsController < ApplicationController
     def index
-      @practice_sessions = PracticeSession.where(user: current_user)
+      practice_sessions = PracticeSession.where(user: current_user)
+      @presenter = PracticeSessionsPresenter.new(practice_sessions)
     end
 
     def show
