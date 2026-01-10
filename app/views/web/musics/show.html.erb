@@ -2,12 +2,18 @@
   <div class="bg-white rounded-lg shadow border border-gray-100 p-8">
     <h1 class="text-3xl font-bold text-gray-900 mb-6"><%= @music.title %></h1>
     <div class="space-y-3">
-      <p class="text-gray-700"><span class="font-medium text-gray-600">Composer:</span> <%= @music.composer %></p>
-      <p class="text-gray-700"><span class="font-medium text-gray-600">Style:</span> <%= @music.style %></p>
-      <p class="text-gray-700"><span class="font-medium text-gray-600">Arranger:</span> <%= @music.arranger.presence || '-' %></p>
+      <p class="text-gray-700">
+        <span class="font-medium text-gray-600">Composer:</span> <%= @music.composer %>
+      </p>
+      <p class="text-gray-700">
+        <span class="font-medium text-gray-600">Style:</span> <%= @music.style %>
+      </p>
+      <p class="text-gray-700">
+        <span class="font-medium text-gray-600">Arranger:</span> <%= @music.arranger.presence || '-' %>
+      </p>
       <p class="text-gray-700">
         <span class="font-medium text-gray-600">Status:</span>
-        <span class="text-xs font-medium px-2 py-1 rounded-full <%= case @music.status when 'archived' then 'bg-gray-100 text-gray-800' when 'learning' then 'bg-blue-100 text-blue-800' when 'reviewing' then 'bg-purple-100 text-purple-800' when 'performing' then 'bg-green-100 text-green-800' else 'bg-gray-100 text-gray-800' end %>">
+        <span class="text-xs font-medium px-2 py-1 rounded-full <%= status_badge_classes(@music.status) %>">
           <%= @music.status %>
         </span>
       </p>
@@ -15,7 +21,15 @@
   </div>
 
   <div class="flex gap-3">
-    <%= link_to t('.edit', default: 'Edit'), edit_web_music_path(@music), class: 'flex-1 bg-amber-600 text-white px-4 py-3 rounded-lg hover:bg-amber-700 font-medium text-center transition' %>
-    <%= link_to t('.back', default: 'Back'), web_musics_path, class: 'flex-1 bg-gray-200 text-gray-900 px-4 py-3 rounded-lg hover:bg-gray-300 font-medium text-center transition' %>
+    <%= link_to(
+      t('.edit', default: 'Edit'),
+      edit_web_music_path(@music),
+      class: 'flex-1 bg-amber-600 text-white px-4 py-3 rounded-lg hover:bg-amber-700 font-medium text-center transition'
+    ) %>
+    <%= link_to(
+      t('.back', default: 'Back'),
+      web_musics_path,
+      class: 'flex-1 bg-gray-200 text-gray-900 px-4 py-3 rounded-lg hover:bg-gray-300 font-medium text-center transition'
+    ) %>
   </div>
 </div>

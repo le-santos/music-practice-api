@@ -2,10 +2,12 @@
   <div class="bg-white rounded-lg shadow border border-gray-100 p-8">
     <h1 class="text-3xl font-bold text-gray-900 mb-6"><%= @practice_session.music.title %></h1>
     <div class="space-y-3">
-      <p class="text-gray-700"><span class="font-medium text-gray-600">Goal:</span> <%= @practice_session.goals %></p>
+      <p class="text-gray-700">
+        <span class="font-medium text-gray-600">Goal:</span> <%= @practice_session.goals %>
+      </p>
       <p class="text-gray-700">
         <span class="font-medium text-gray-600">Status:</span>
-        <span class="text-xs font-medium px-2 py-1 rounded-full <%= case @practice_session.status when 'pending' then 'bg-yellow-100 text-yellow-800' when 'planned' then 'bg-blue-100 text-blue-800' when 'completed' then 'bg-green-100 text-green-800' else 'bg-gray-100 text-gray-800' end %>">
+        <span class="text-xs font-medium px-2 py-1 rounded-full <%= practice_session_status_badge_classes(@practice_session.status) %>">
           <%= @practice_session.status %>
         </span>
       </p>
@@ -13,7 +15,15 @@
   </div>
 
   <div class="flex gap-3">
-    <%= link_to t('.edit', default: 'Edit'), edit_web_practice_session_path(@practice_session), class: 'flex-1 bg-amber-600 text-white px-4 py-3 rounded-lg hover:bg-amber-700 font-medium text-center transition' %>
-    <%= link_to t('.back', default: 'Back'), web_practice_sessions_path, class: 'flex-1 bg-gray-200 text-gray-900 px-4 py-3 rounded-lg hover:bg-gray-300 font-medium text-center transition' %>
+    <%= link_to(
+      t('.edit', default: 'Edit'),
+      edit_web_practice_session_path(@practice_session),
+      class: 'flex-1 bg-amber-600 text-white px-4 py-3 rounded-lg hover:bg-amber-700 font-medium text-center transition'
+    ) %>
+    <%= link_to(
+      t('.back', default: 'Back'),
+      web_practice_sessions_path,
+      class: 'flex-1 bg-gray-200 text-gray-900 px-4 py-3 rounded-lg hover:bg-gray-300 font-medium text-center transition'
+    ) %>
   </div>
 </div>

@@ -42,7 +42,7 @@
                 <p class="font-medium text-gray-900"><%= link_to session.music.title, web_practice_session_path(session), class: 'text-indigo-600 hover:text-indigo-700' %></p>
                 <p class="text-gray-600 text-sm"><%= session.goals %></p>
               </div>
-              <span class="text-xs font-medium px-3 py-1 rounded-full <%= case session.status when 'pending' then 'bg-yellow-100 text-yellow-800' when 'planned' then 'bg-blue-100 text-blue-800' when 'completed' then 'bg-green-100 text-green-800' else 'bg-gray-100 text-gray-800' end %>">
+              <span class="text-xs font-medium px-3 py-1 rounded-full <%= practice_session_status_badge_classes(session.status) %>">
                 <%= session.status %>
               </span>
             </div>
