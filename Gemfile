@@ -10,10 +10,10 @@ gem 'devise', '~> 4.9'
 gem 'dotenv-rails'
 gem 'jwt'
 gem 'pg', '~> 1.1'
+gem 'propshaft'
 gem 'puma', '~> 5.0'
 gem 'pundit'
 gem 'rack-cors'
-gem 'sprockets-rails'
 gem 'tailwindcss-rails', '~> 2.0'
 
 group :development, :test do
