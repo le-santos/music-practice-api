@@ -18,7 +18,12 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  # Uncomment if you use ActiveRecord fixtures
+  # if defined?(fixture_path=())
+  #   config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  # else
+  #   config.fixture_paths = ["#{::Rails.root}/spec/fixtures"]
+  # end
 
   config.use_transactional_fixtures = true
 
