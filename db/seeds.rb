@@ -1,8 +1,8 @@
 ActiveRecord::Base.transaction do
   # Create test users
   puts '========= Creating Users ==========='
-  user1 = User.create!(username: 'Fulano', email: 'email1@email', password: '123456qwerty')
-  user2 = User.create!(username: 'Beltrano', email: 'email2@email', password: '123456123456')
+  User.create!(username: 'Fulano', email: 'email1@email', password: '123456qwerty')
+  User.create!(username: 'Beltrano', email: 'email2@email', password: '123456123456')
 
   # Params for creating Music
   musics_params = [
