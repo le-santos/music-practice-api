@@ -29,7 +29,7 @@ This starts:
 
 Run tests:
 ```bash
-docker-compose exec api bundle exec rspec
+docker-compose exec app bundle exec rspec
 ```
 
 ### Local Setup (Requires Ruby 3.3.0 + PostgreSQL)
