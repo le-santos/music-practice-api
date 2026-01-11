@@ -10,3 +10,13 @@ pt-BR:
       destroy:
         success: Música excluída com sucesso.
         failure: Exclusão da Música falhou.
+    practice_sessions:
+      create:
+        success: Sessão de prática criada com sucesso.
+        failure: Criação da sessão de prática falhou.
+      update:
+        success: Sessão de prática atualizada com sucesso.
+        failure: Atualização da sessão de prática falhou.
+      destroy:
+        success: Sessão de prática excluída com sucesso.
+        failure: Exclusão da sessão de prática falhou.
