@@ -6,7 +6,7 @@ RSpec.describe 'Users routes' do
   context 'POST #create' do
     let(:post_request) { post '/api/v1/register', params: params }
     let(:params) do
-      { username: 'Fulano', email: 'email@email', password: '123456' }
+      { username: 'Fulano', email: 'email@email', password: '123456qwerty' }
     end
 
     it 'register new user' do
@@ -65,7 +65,7 @@ RSpec.describe 'Users routes' do
   end
 
   context 'POST #login' do
-    let(:user) { create(:user, username: 'user1', password: 'password') }
+    let(:user) { create(:user, username: 'user1', password: '123456qwerty') }
     let(:user_token) { AuthenticationTokenService.encode(user.email) }
     let(:params) { { email: user.email, password: user.password } }
     let(:login_request) { post '/api/v1/login', params: params }

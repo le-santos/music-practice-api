@@ -1,0 +1,12 @@
+en:
+  web:
+    musics:
+      create:
+        success: Music created successfully.
+        failure: Music creation failed.
+      update:
+        success: Music updated successfully.
+        failure: Music update failed.
+      destroy:
+        success: Music deleted successfully.
+        failure: Music deletion failed.

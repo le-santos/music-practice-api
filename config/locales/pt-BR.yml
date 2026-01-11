@@ -1,4 +1,8 @@
 pt-BR:
+  actioncontroller:
+    errors:
+      messages:
+        parameter_missing: Faltam parâmetros necessários.
   activerecord:
     errors:
       messages:

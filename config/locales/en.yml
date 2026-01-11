@@ -1,0 +1,5 @@
+en:
+  actioncontroller:
+    errors:
+      messages:
+        parameter_missing: Required params are missing.

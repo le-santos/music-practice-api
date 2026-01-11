@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  devise_for :users
+
+  root to: 'web/home#index'
+
+  namespace 'web' do
+    resources :musics
+    resources :practice_sessions
+  end
 
   namespace 'api' do
     namespace 'v1' do

@@ -1,0 +1,147 @@
+<div class="space-y-6">
+  <div class="flex justify-between items-center">
+    <h1 class="text-3xl font-bold text-gray-900"><%= t('.title', default: 'Practice Sessions') %></h1>
+    <%= link_to t('.add_new', default: '+ New Practice Session'), new_web_practice_session_path, class: 'bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 font-medium transition' %>
+  </div>
+
+  <% if @presenter.pending_sessions? %>
+    <div class="bg-gradient-to-r from-yellow-50 to-amber-50 rounded-lg border-2 border-yellow-200 p-6">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="bg-yellow-500 text-white p-2 rounded-lg">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-yellow-900">Pending Sessions</h2>
+      </div>
+      <div class="grid grid-cols-1 gap-4">
+        <% @presenter.pending_sessions.each do |practice_session| %>
+          <div class="bg-white rounded-lg shadow border border-yellow-100 p-6 hover:shadow-md transition hover:border-yellow-200">
+            <div class="flex justify-between items-start mb-4">
+              <div class="flex-1">
+                <h3 class="text-lg font-bold text-gray-900"><%= practice_session.music.title %></h3>
+                <p class="text-gray-600 text-sm mt-1"><%= practice_session.goals %></p>
+              </div>
+              <span class="text-xs font-medium px-3 py-1 rounded-full bg-yellow-100 text-yellow-800">
+                <%= practice_session.status %>
+              </span>
+            </div>
+            <div class="flex gap-2">
+              <%= link_to(
+                t('.show', default: 'View'),
+                web_practice_session_path(practice_session),
+                class: 'flex-1 bg-blue-100 text-blue-700 px-3 py-2 rounded hover:bg-blue-200 font-medium text-center transition text-sm'
+              ) %>
+              <%= link_to(
+                t('.edit', default: 'Edit'),
+                edit_web_practice_session_path(practice_session),
+                class: 'flex-1 bg-amber-100 text-amber-700 px-3 py-2 rounded hover:bg-amber-200 font-medium text-center transition text-sm'
+              ) %>
+              <%= link_to(
+                t('.delete', default: 'Delete'),
+                web_practice_session_path(practice_session),
+                method: :delete,
+                data: { confirm: 'Are you sure?' },
+                class: 'flex-1 bg-red-100 text-red-700 px-3 py-2 rounded hover:bg-red-200 font-medium text-center transition text-sm'
+              ) %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @presenter.planned_sessions? %>
+    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border-2 border-blue-200 p-6">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="bg-blue-500 text-white p-2 rounded-lg">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-blue-900">Planned Sessions</h2>
+      </div>
+      <div class="grid grid-cols-1 gap-4">
+        <% @presenter.planned_sessions.each do |practice_session| %>
+          <div class="bg-white rounded-lg shadow border border-blue-100 p-6 hover:shadow-md transition hover:border-blue-200">
+            <div class="flex justify-between items-start mb-4">
+              <div class="flex-1">
+                <h3 class="text-lg font-bold text-gray-900"><%= practice_session.music.title %></h3>
+                <p class="text-gray-600 text-sm mt-1"><%= practice_session.goals %></p>
+              </div>
+              <span class="text-xs font-medium px-3 py-1 rounded-full bg-blue-100 text-blue-800">
+                <%= practice_session.status %>
+              </span>
+            </div>
+            <div class="flex gap-2">
+              <%= link_to(
+                t('.show', default: 'View'),
+                web_practice_session_path(practice_session),
+                class: 'flex-1 bg-blue-100 text-blue-700 px-3 py-2 rounded hover:bg-blue-200 font-medium text-center transition text-sm'
+              ) %>
+              <%= link_to(
+                t('.edit', default: 'Edit'),
+                edit_web_practice_session_path(practice_session),
+                class: 'flex-1 bg-amber-100 text-amber-700 px-3 py-2 rounded hover:bg-amber-200 font-medium text-center transition text-sm'
+              ) %>
+              <%= link_to(
+                t('.delete', default: 'Delete'),
+                web_practice_session_path(practice_session),
+                method: :delete,
+                data: { confirm: 'Are you sure?' },
+                class: 'flex-1 bg-red-100 text-red-700 px-3 py-2 rounded hover:bg-red-200 font-medium text-center transition text-sm'
+              ) %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @presenter.completed_sessions? %>
+    <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border-2 border-green-200 p-6">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="bg-green-500 text-white p-2 rounded-lg">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-green-900">Completed Sessions</h2>
+      </div>
+      <div class="grid grid-cols-1 gap-4">
+        <% @presenter.completed_sessions.each do |practice_session| %>
+          <div class="bg-white rounded-lg shadow border border-green-100 p-6 hover:shadow-md transition hover:border-green-200 opacity-75">
+            <div class="flex justify-between items-start mb-4">
+              <div class="flex-1">
+                <h3 class="text-lg font-bold text-gray-900"><%= practice_session.music.title %></h3>
+                <p class="text-gray-600 text-sm mt-1"><%= practice_session.goals %></p>
+              </div>
+              <span class="text-xs font-medium px-3 py-1 rounded-full bg-green-100 text-green-800">
+                <%= practice_session.status %>
+              </span>
+            </div>
+            <div class="flex gap-2">
+              <%= link_to(
+                t('.show', default: 'View'),
+                web_practice_session_path(practice_session),
+                class: 'flex-1 bg-blue-100 text-blue-700 px-3 py-2 rounded hover:bg-blue-200 font-medium text-center transition text-sm'
+              ) %>
+              <%= link_to(
+                t('.edit', default: 'Edit'),
+                edit_web_practice_session_path(practice_session),
+                class: 'flex-1 bg-amber-100 text-amber-700 px-3 py-2 rounded hover:bg-amber-200 font-medium text-center transition text-sm'
+              ) %>
+              <%= link_to(
+                t('.delete', default: 'Delete'),
+                web_practice_session_path(practice_session),
+                method: :delete,
+                data: { confirm: 'Are you sure?' },
+                class: 'flex-1 bg-red-100 text-red-700 px-3 py-2 rounded hover:bg-red-200 font-medium text-center transition text-sm'
+              ) %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

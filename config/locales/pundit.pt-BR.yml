@@ -1,0 +1,4 @@
+pt-BR:
+ pundit:
+   default: 'Você não pode realizar essa ação.'
+   user_not_authorized: 'Você não tem autorização para realizar essa ação.'

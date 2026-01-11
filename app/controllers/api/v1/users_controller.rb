@@ -18,7 +18,7 @@ module Api
       def login
         user = User.find_by(email: permitted_params[:email])
 
-        if user&.authenticate(permitted_params[:password])
+        if user&.valid_password?(permitted_params[:password])
           token = create_token(user.email)
           render status: :created, json: { id: user.id, token: token }
         else

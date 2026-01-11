@@ -5,7 +5,7 @@ describe 'Musics routes' do
 
   let(:secret) { AuthenticationTokenService::HMAC_SECRET }
   let(:algorithm) { AuthenticationTokenService::ALGORITHM_TYPE }
-  let(:user) { create(:user, username: 'user1', password: 'password') }
+  let(:user) { create(:user, username: 'user1') }
   let(:token) { AuthenticationTokenService.encode(user.email) }
   let(:response_json) { JSON.parse(response.body, symbolize_names: true) }
 
@@ -82,10 +82,10 @@ describe 'Musics routes' do
       post('/api/v1/musics', params: music, headers: headers)
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.body).to include('Título não pode ficar em branco')
-      expect(response.body).to include('Compositor não pode ficar em branco')
-      expect(response.body).to include('Estilo não pode ficar em branco')
-      expect(response.body).to include('Categoria não pode ficar em branco')
+      expect(response.body).to include("Title can't be blank")
+      expect(response.body).to include("Composer can't be blank")
+      expect(response.body).to include("Style can't be blank")
+      expect(response.body).to include("Category can't be blank")
     end
   end
 
@@ -111,19 +111,19 @@ describe 'Musics routes' do
                                           headers: headers)
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.body).to include('Compositor não pode ficar em branco')
+      expect(response.body).to include("Composer can't be blank")
     end
   end
 
   context 'DELETE #destroy' do
     it 'deletes Music' do
       music = create(:music)
-      count_before = Music.all.count
+      count_before = Music.count
 
       delete("/api/v1/musics/#{music.id}", headers: headers)
 
       expect(response).to have_http_status(:no_content)
-      expect(Music.all.count).to be < count_before
+      expect(Music.count).to be < count_before
     end
   end
 end

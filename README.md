@@ -1,33 +1,66 @@
-# Music Practice API
+# Music Practice Journal
 
-[![Rubocop](https://github.com/le-santos/music-practice-api/workflows/Rubocop/badge.svg?branch=main&event=push)](https://github.com/le-santos/music-practice-api/actions?query=workflow%3ARubocop+event%3Apush+branch%3Amain) 
-[![reviewdog](https://github.com/le-santos/music-practice-api/workflows/reviewdog/badge.svg?branch=main&event=push)](https://github.com/le-santos/music-practice-api/actions?query=workflow%3Areviewdog+event%3Apush+branch%3Amain)
+A Rails application for tracking music practice, like a practice journal.
 
+**⚠️ This is a work in progress project used for testing Rails features and other tools 👷 🧪**
 
-**⚠️ This is a work in progress 👷‍♂️**
+Includes both a **web UI** and **REST API** for CRUD operations.
 
-A simple API-only application built with Ruby on Rails. It's goal is to serve another web or mobile app.
-
-This application is kind of a **music practice journal**: a user can register its musics, create and plan practice sessions.
-
-## Domain schema
+## Domain Schema
 <image width='300px' src='erd.svg'>
 
-## Routes
-TO-DO
+## Tech Stack
+- **Ruby 3.3.0** | **Rails 7.0** | **PostgreSQL**
+- Authentication: Devise + JWT
+- Authorization: Pundit
+- Styling: Tailwind CSS 2.7.9
+- Testing: RSpec 5.0 + FactoryBot + Shoulda::Matchers
+- Linting: Rubocop (100 char line length)
 
+## Setup & Running
 
-## How to test it
-TO-DO
+### With Docker (Recommended)
+```bash
+docker-compose up
+```
+This starts:
+- PostgreSQL on port 5433
+- Rails APP on port 3000
+
+Run tests:
+```bash
+docker-compose exec app bundle exec rspec
+```
+
+### Local Setup (Requires Ruby 3.3.0 + PostgreSQL)
+```bash
+bundle install
+rails db:create db:migrate
+bundle exec rspec        # Run tests
+bundle exec rubocop      # Lint check
+rails s                  # Start server on port 3000
+```
+
+## API & Web Routes
+- **Web routes** (`/web`): View interface for CRUD operations
+  - `GET /web/musics` → list musics
+  - `GET /web/practice_sessions` → list practice sessions
+  - Full CRUD available for both resources
+
+- **API routes** (`/api/v1`): JSON endpoints (legacy)
+  - `POST /api/v1/register` → create user (no auth required)
+  - `POST /api/v1/login` → issue JWT token
+  - CRUD resources: musics, practice_sessions (all require auth)
+
 
 ## Dependencies
 
-If running locally, it requires:
+### Docker Setup
+- Docker
+- Docker Compose
 
-* Ruby 3.3.0
-* PostgreSQL
-
-Or just:
-* Docker
-* docker-compose
+### Local Setup
+- Ruby 3.3.0
+- PostgreSQL
+- Bundler
 
