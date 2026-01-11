@@ -6,7 +6,7 @@ class User < ApplicationRecord
   # https://github.com/heartcombo/devise/blob/main/lib/devise/models/validatable.rb
 
   validates :username, :email, presence: true, allow_blank: false
-  validates :username, :email, uniqueness: { case_sensitive: true }
+  validates :username, uniqueness: { case_sensitive: true }
 
   has_many :musics, dependent: :destroy
   has_many :practice_sessions, dependent: :destroy
