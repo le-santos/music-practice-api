@@ -57,10 +57,6 @@ module Web
       "#{t('.failure')} #{record.errors.full_messages.join(', ')}"
     end
 
-    def set_practice_session
-      @practice_session = PracticeSession.find(params[:id])
-    end
-
     def practice_session_params
       params
         .require(:practice_session)

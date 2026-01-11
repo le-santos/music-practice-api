@@ -39,7 +39,7 @@ ActiveRecord::Base.transaction do
     }
   ]
 
-  CreateMusicAndSessions = lambda do |musics_params, user_id|
+  create_music_and_sessions = lambda do |musics_params, user_id|
     musics_params.each do |music|
       new_music = Music.create!(user_id: user_id, **music)
 
@@ -57,7 +57,7 @@ ActiveRecord::Base.transaction do
 
   puts '========= Creating Music and PracticeSessions ==========='
 
-  User.pluck(:id).each { |user_id| CreateMusicAndSessions.call(musics_params, user_id) }
+  User.pluck(:id).each { |user_id| create_music_and_sessions.call(musics_params, user_id) }
 
   puts '========= Seed Complete! ==========='
 end

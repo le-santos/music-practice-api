@@ -17,7 +17,7 @@ RSpec.describe MusicPolicy, type: :policy do
   end
 
   permissions :show? do
-    it 'denies access if User is does not own Music' do
+    it 'denies access if User does not own Music' do
       other_user = create(:user)
       user = create(:user)
       music = build(:music, user: user)
@@ -43,7 +43,7 @@ RSpec.describe MusicPolicy, type: :policy do
   end
 
   permissions :edit?, :update? do
-    it 'denies access if User is does not own Music' do
+    it 'denies access if User does not own Music' do
       other_user = create(:user)
       user = create(:user)
       music = build(:music, user: user)
@@ -59,22 +59,6 @@ RSpec.describe MusicPolicy, type: :policy do
     end
   end
 
-  permissions :destroy? do
-    it 'denies access if User is does not own Music' do
-      other_user = create(:user)
-      user = create(:user)
-      music = build(:music, user: user)
-
-      expect(policy).not_to permit(other_user, music)
-    end
-
-    it 'permits access if User owns Music' do
-      user = create(:user)
-      music = build(:music, user: user)
-
-      expect(policy).to permit(user, music)
-    end
-  end
   permissions :destroy? do
     it 'denies access if User does not own Music' do
       other_user = create(:user)
