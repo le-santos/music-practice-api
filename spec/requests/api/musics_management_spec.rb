@@ -81,7 +81,7 @@ describe 'Musics routes' do
 
       post('/api/v1/musics', params: music, headers: headers)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include("Title can't be blank")
       expect(response.body).to include("Composer can't be blank")
       expect(response.body).to include("Style can't be blank")
@@ -110,7 +110,7 @@ describe 'Musics routes' do
       patch("/api/v1/musics/#{music.id}", params: update_params,
                                           headers: headers)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include("Composer can't be blank")
     end
   end

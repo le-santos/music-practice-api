@@ -1,7 +1,15 @@
-require:
+plugins:
   - rubocop-rails
+
+inherit_from:
+  - .rubocop-rails.yml
+
+inherit_mode:
+  merge:
+    - Exclude
+
 AllCops:
-  TargetRubyVersion: 3.3.0
+  TargetRubyVersion: 3.3.10
   NewCops: enable
   Exclude:
     - 'bin/**/*'

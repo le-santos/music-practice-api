@@ -21,9 +21,13 @@ Bundler.require(*Rails.groups)
 module MusicPracticeApi
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 8.1
 
-    config.active_support.cache_format_version = 7.0
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    config.autoload_lib(ignore: %w[assets tasks])
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
@@ -32,12 +36,23 @@ module MusicPracticeApi
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    # Only loads a smaller set of middleware suitable for API only apps.
-    # Middleware like session, flash, cookies can be added back manually.
-    # Skip views, helpers and assets when generating a new resource.
-    # config.api_only = true
+    # Don't generate system test files.
+    config.generators.system_tests = nil
 
-    config.assets.enabled = true
-    config.generators.views = true
+    # Enable validation of migration timestamps. When set, an ActiveRecord::InvalidMigrationTimestampError
+    # will be raised if the timestamp prefix for a migration is more than a day ahead of the timestamp
+    # associated with the current time. This is done to prevent forward-dating of migration files, which can
+    # impact migration generation and other migration commands.
+    #
+    # Applications with existing timestamped migrations that do not adhere to the
+    # expected format can disable validation by setting this config to `false`.
+    #++
+    Rails.application.config.active_record.validate_migration_timestamps = true
+
+    ###
+    # Enables YJIT as of Ruby 3.3, to bring sizeable performance improvements. If you are
+    # deploying to a memory constrained environment you may want to set this to `false`.
+    #++
+    Rails.application.config.yjit = true
   end
 end

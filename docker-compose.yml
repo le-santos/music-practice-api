@@ -6,16 +6,22 @@ services:
     env_file:
       - .env
     ports:
-      - "5433:5433"
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   app:
     build: .
     environment:
       PIDFILE: /tmp/pids/server.pid
-    command: /bin/sh -c "bundle exec rails s -b 0.0.0.0 -p 3000"
+    command: bundle exec rails s -b 0.0.0.0 -p 3000
     ports:
       - "3000:3000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     # The pid file is stored in this docker tmpfs temporary mount. 
     # This avoid the need to remove server.pid before the container runs
     tmpfs:

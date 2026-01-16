@@ -10,7 +10,7 @@ module Api
         if user.save
           render status: :created, json: { user_id: user.id }
         else
-          render status: :unprocessable_entity,
+          render status: :unprocessable_content,
                  json: user.errors.full_messages
         end
       end
@@ -22,7 +22,7 @@ module Api
           token = create_token(user.email)
           render status: :created, json: { id: user.id, token: token }
         else
-          render status: :unprocessable_entity,
+          render status: :unprocessable_content,
                  json: { error: 'Invalid User or Password' }
         end
       end
@@ -36,7 +36,7 @@ module Api
       def check_params
         return unless blank_values? || missing_keys?
 
-        render status: :unprocessable_entity,
+        render status: :unprocessable_content,
                json: { error: 'missing params' }
       end
 
