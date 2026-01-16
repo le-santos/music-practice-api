@@ -10,11 +10,12 @@ Includes both a **web UI** and **REST API** for CRUD operations.
 <image width='300px' src='erd.svg'>
 
 ## Tech Stack
-- **Ruby 3.3.0** | **Rails 7.0** | **PostgreSQL**
+- **Ruby 3.3.10** | **Rails 8.1** | **PostgreSQL**
 - Authentication: Devise + JWT
 - Authorization: Pundit
-- Styling: Tailwind CSS 2.7.9
-- Testing: RSpec 5.0 + FactoryBot + Shoulda::Matchers
+- Asset Pipeline: Propshaft
+- Styling: Tailwind CSS 2.0
+- Testing: RSpec 6.0 + FactoryBot + Shoulda::Matchers
 - Linting: Rubocop (100 char line length)
 
 ## Setup & Running
@@ -32,13 +33,13 @@ Run tests:
 docker-compose exec app bundle exec rspec
 ```
 
-### Local Setup (Requires Ruby 3.3.0 + PostgreSQL)
+### Local Setup (Requires Ruby 3.3.10 + PostgreSQL)
 ```bash
-bundle install
-rails db:create db:migrate
-bundle exec rspec        # Run tests
-bundle exec rubocop      # Lint check
-rails s                  # Start server on port 3000
+bin/setup              # Install dependencies & prepare database
+bin/dev                # Start development server with Foreman
+bin/rails s            # Start Rails server on port 3000
+bundle exec rspec      # Run tests
+bundle exec rubocop    # Lint check
 ```
 
 ## API & Web Routes
@@ -52,7 +53,6 @@ rails s                  # Start server on port 3000
   - `POST /api/v1/login` → issue JWT token
   - CRUD resources: musics, practice_sessions (all require auth)
 
-
 ## Dependencies
 
 ### Docker Setup
@@ -60,7 +60,11 @@ rails s                  # Start server on port 3000
 - Docker Compose
 
 ### Local Setup
-- Ruby 3.3.0
+- Ruby 3.3.10
 - PostgreSQL
 - Bundler
 
+## Development Scripts
+- `bin/setup` - Initialize development environment
+- `bin/dev` - Start dev server with hot-reload
+- `bin/rails` - Run Rails commands
