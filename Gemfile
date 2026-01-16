@@ -9,6 +9,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'devise', '~> 4.9'
 gem 'dotenv-rails'
 gem 'jwt'
+gem 'mission_control-jobs'
 gem 'pg', '~> 1.1'
 gem 'propshaft'
 gem 'puma', '~> 6.0'

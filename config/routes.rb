@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  mount MissionControl::Jobs::Engine, at: "/jobs"
+
   root to: 'web/home#index'
 
   namespace 'web' do
