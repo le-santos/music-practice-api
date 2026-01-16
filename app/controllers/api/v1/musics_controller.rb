@@ -21,7 +21,7 @@ module Api
         if music.save
           render status: :created, json: music
         else
-          render status: :unprocessable_entity,
+          render status: :unprocessable_content,
                  json: music.errors.full_messages
         end
       end
@@ -30,7 +30,7 @@ module Api
         if @music.update(music_params)
           render status: :ok, json: @music
         else
-          render status: :unprocessable_entity,
+          render status: :unprocessable_content,
                  json: @music.errors.full_messages
         end
       end

@@ -22,7 +22,7 @@ module Api
         if practice_session.save
           render status: :created, json: practice_session
         else
-          render status: :unprocessable_entity,
+          render status: :unprocessable_content,
                  json: practice_session.errors.full_messages
         end
       end
@@ -31,7 +31,7 @@ module Api
         if @practice_session.update(practice_params)
           render status: :ok, json: @practice_session
         else
-          render status: :unprocessable_entity,
+          render status: :unprocessable_content,
                  json: @practice_session.errors.full_messages
         end
       end

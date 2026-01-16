@@ -75,7 +75,7 @@ describe 'Practice sessions route' do
              params: practice_params,
              headers: headers)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include("Goals can't be blank")
       end
     end

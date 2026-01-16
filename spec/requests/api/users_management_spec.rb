@@ -27,7 +27,7 @@ RSpec.describe 'Users routes' do
       it 'return status 422' do
         post_request
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'return error messages' do
@@ -49,7 +49,7 @@ RSpec.describe 'Users routes' do
       it 'return status 422' do
         post_request
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'return error messages' do
@@ -89,7 +89,7 @@ RSpec.describe 'Users routes' do
       it 'returns status 422' do
         login_request
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'returns error message' do
@@ -105,7 +105,7 @@ RSpec.describe 'Users routes' do
       it 'returns status 422' do
         login_request
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'returns error message' do
